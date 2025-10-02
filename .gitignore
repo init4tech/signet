@@ -1,0 +1,9 @@
+/db
+/holesky
+/static
+/target
+recipe.json
+jwttoken
+.github/scripts/genesis/out
+.github/scripts/genesis/cache
+.DS_Store

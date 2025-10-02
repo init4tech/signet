@@ -1,0 +1,3 @@
+[submodule ".github/scripts/genesis/lib/zenith"]
+	path = .github/scripts/genesis/lib/zenith
+	url = https://github.com/init4tech/zenith

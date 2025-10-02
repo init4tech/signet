@@ -1,0 +1,57 @@
+[package]
+name = "signet"
+version = "0.3.0"
+edition = "2024"
+rust-version = "1.88"
+authors = ["init4"]
+license = "UNLICENSED"
+homepage = "https://github.com/init4tech/signet-node"
+repository = "https://github.com/init4tech/signet-node"
+
+[dependencies]
+init4-bin-base = { version = "0.13.0", features = ["alloy"], default-features = false }
+
+# Node Components
+signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.11.2" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.11.2" }
+
+
+reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+
+eyre = "0.6.12"
+openssl = { version = "0.10", features = ["vendored"] }
+reqwest = { version = "0.12.22", features = ["rustls-tls-native-roots", "json"]}
+tracing = "0.1.41"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+debug = "line-tables-only"
+strip = true
+panic = "unwind"
+codegen-units = 16
+
+[profile.profiling]
+inherits = "release"
+debug = 2
+strip = false
+
+[profile.ci-rust]
+inherits = "dev"
+strip = true
+debug = false
+incremental = false
+
+[[bin]]
+name = "signet"
+path = "src/signet.rs"
+test = false
+
+# [patch.crates-io]
+# init4-bin-base = { path = "../shared" }
+
+# [patch.'https://github.com/init4tech/node-components']
+# signet-node = { path = "../components/crates/node" }
+# signet-node-config = { path = "../components/crates/node-config" }
