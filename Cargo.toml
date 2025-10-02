@@ -18,7 +18,7 @@ signet-node-config = { git = "https://github.com/init4tech/node-components", tag
 
 reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.2" }
 
 eyre = "0.6.12"
 openssl = { version = "0.10", features = ["vendored"] }
