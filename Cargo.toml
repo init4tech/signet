@@ -33,7 +33,7 @@ signet-journal = "0.11.1"
 signet-test-utils = "0.11.1"
 
 reth-db = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1", features = ["test-utils"] }
-reth-exex-test-utils = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+reth-exex-test-utils = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.2" }
 
 serial_test = "3.2.0"
 tempfile = "3.17.0"
