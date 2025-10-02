@@ -1,0 +1,31 @@
+name: Validate Genesis File Changes
+
+on:
+  push: 
+    paths:
+      - 'crates/node/src/config/genesis/**'
+      - '.github/scripts/genesis/**'
+  workflow_dispatch:
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  test-genesis:
+    strategy:
+      fail-fast: true
+
+    name: Validate Genesis File Changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: 'recursive'
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Run Forge tests
+        run: |
+          cd .github/scripts/genesis && forge test -vvv
+        id: test

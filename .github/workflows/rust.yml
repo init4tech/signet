@@ -1,0 +1,15 @@
+name: CI # Continuous Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# simplest example of using the rust-base action
+jobs:
+  rust-base:
+    uses: init4tech/actions/.github/workflows/rust-base.yml@main
+    with:
+      require-lockfile: true
+      rust-profile: 'ci-rust'

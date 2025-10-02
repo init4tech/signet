@@ -1,0 +1,5 @@
+[target.aarch64-unknown-linux-gnu]
+# Install libclang 3.8 or greater
+pre-build = [
+    "apt-get update && apt-get install --assume-yes --no-install-recommends llvm-dev libclang-6.0-dev clang-6.0 libssl-dev curl"
+]

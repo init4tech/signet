@@ -1,0 +1,92 @@
+
+name: 'signet-node'
+
+services:
+  signet:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BASE_FEE_RECIPIENT: 0xe0eDA3701D44511ce419344A4CeD30B52c9Ba231
+      BLOB_EXPLORER_URL: https://holesky.blobscan.com/
+      GENESIS_JSON_PATH: /usr/local/bin/genesis.json
+      IPC_ENDPOINT: /tmp/signet.ipc
+      RPC_PORT: "8546"
+      SIGNET_CHAIN_ID: "17001"
+      SIGNET_DATABASE_PATH: /root/.local/share/exex/holesky/signet/db
+      SIGNET_STATIC_PATH: /root/.local/share/exex/holesky/signet/static
+      TX_FORWARD_URL: https://transactions.holesky.signet.sh/add
+      WS_RPC_PORT: "8547"
+      # rust-specific
+      RUST_LOG: info
+    ports:
+      - '9001:9001' # metrics
+      - '30303:30303' # eth/66 peering
+      - '8545:8545' # rpc
+      - '8546:8546' # signet-node rpc
+      - '8547:8547' # signet-node ws
+      - '8551:8551' # engine
+    volumes:
+      - holesky_data:/root/.local/share/reth/holesky
+      - logs:/root/logs
+      - ./jwttoken:/root/jwt:ro
+    pid: host
+    command: >
+      signet
+      node
+      --chain holesky
+      --metrics 0.0.0.0:9001
+      --log.file.directory /root/logs
+      --authrpc.addr 0.0.0.0
+      --authrpc.port 8551
+      --authrpc.jwtsecret /root/jwt/jwt.hex
+      --http --http.addr 0.0.0.0 --http.port 8545
+      --http.api "eth,net,web3"
+
+  lighthouse:
+    restart: unless-stopped
+    image: sigp/lighthouse:latest
+    ports:
+      - '5052:5052' # metrics
+      - '5053:5053' # http
+      - '5054:5054' # ws
+    volumes:
+      - holesky_data:/root/.lighthouse/holesky
+      - logs:/Users/swanpro/.lighthouse/logs
+      - ./jwttoken:/secrets:ro
+    command: >
+      lighthouse
+      bn
+      --execution-endpoint
+      http://signet-node-signet-1:8551/
+      --execution-jwt
+      /secrets/jwt.hex
+      --network
+      holesky
+      --checkpoint-sync-url
+      https://checkpoint-sync.holesky.ethpandaops.io
+      --http
+      --http-address
+      0.0.0.0
+      --http-port
+      8545
+      --disable-deposit-contract-sync
+      --metrics
+      --metrics-address
+      0.0.0.0
+      --metrics-port
+      5054
+      --checkpoint-sync-url-timeout
+      300
+volumes:
+  holesky_data:
+    driver: local
+  holesky_lh_data:
+    driver: local
+  logs:
+    driver: local
+  prometheusdata:
+    driver: local
+  grafanadata:
+    driver: local
