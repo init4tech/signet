@@ -16,7 +16,7 @@ signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.
 signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.11.1" }
 
 
-reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
+reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.2" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.8.1" }
 
