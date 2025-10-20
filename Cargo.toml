@@ -9,7 +9,7 @@ homepage = "https://github.com/init4tech/signet-node"
 repository = "https://github.com/init4tech/signet-node"
 
 [dependencies]
-init4-bin-base = { version = "0.13.0", features = ["alloy"], default-features = false }
+init4-bin-base = { version = "0.14.0", features = ["alloy"], default-features = false }
 
 # Node Components
 signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.11.2" }
