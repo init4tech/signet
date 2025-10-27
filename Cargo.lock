@@ -10425,7 +10425,7 @@ dependencies = [
  "reth-db",
  "reth-node-ethereum",
  "signet-node",
- "signet-node-config",
+ "signet-node-config 0.11.2",
  "tracing",
 ]
 
@@ -10452,24 +10452,48 @@ dependencies = [
 ]
 
 [[package]]
+name = "signet-blobber"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
+dependencies = [
+ "alloy",
+ "foundry-blob-explorers",
+ "init4-bin-base",
+ "reqwest",
+ "reth",
+ "reth-chainspec",
+ "serde",
+ "signet-extract",
+ "signet-types",
+ "signet-zenith",
+ "smallvec",
+ "thiserror 2.0.17",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
 name = "signet-block-processor"
-version = "0.11.2"
-source = "git+https://github.com/init4tech/node-components?tag=v0.11.2#c2139945a40847c5e8f34ce701b5b6dd6ad76a32"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
 dependencies = [
  "alloy",
  "eyre",
  "init4-bin-base",
+ "metrics",
  "reth",
  "reth-chainspec",
  "reth-exex",
  "reth-node-api",
- "signet-blobber",
+ "signet-blobber 0.11.4",
  "signet-constants",
  "signet-db",
  "signet-evm",
  "signet-extract",
  "signet-journal",
  "signet-node-types",
+ "signet-types",
  "tracing",
  "trevm",
 ]
@@ -10504,8 +10528,8 @@ dependencies = [
 
 [[package]]
 name = "signet-db"
-version = "0.11.2"
-source = "git+https://github.com/init4tech/node-components?tag=v0.11.2#c2139945a40847c5e8f34ce701b5b6dd6ad76a32"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
 dependencies = [
  "alloy",
  "auto_impl",
@@ -10567,6 +10591,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "signet-genesis"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
+dependencies = [
+ "alloy",
+ "init4-bin-base",
+ "serde",
+ "serde_json",
+ "signet-constants",
+ "thiserror 2.0.17",
+]
+
+[[package]]
 name = "signet-journal"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -10580,12 +10617,13 @@ dependencies = [
 
 [[package]]
 name = "signet-node"
-version = "0.11.2"
-source = "git+https://github.com/init4tech/node-components?tag=v0.11.2#c2139945a40847c5e8f34ce701b5b6dd6ad76a32"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
 dependencies = [
  "alloy",
  "eyre",
  "futures-util",
+ "metrics",
  "reqwest",
  "reth",
  "reth-chainspec",
@@ -10593,10 +10631,10 @@ dependencies = [
  "reth-db-common",
  "reth-exex",
  "reth-node-api",
- "signet-blobber",
+ "signet-blobber 0.11.4",
  "signet-block-processor",
  "signet-db",
- "signet-node-config",
+ "signet-node-config 0.11.4",
  "signet-node-types",
  "signet-rpc",
  "signet-tx-cache",
@@ -10619,8 +10657,29 @@ dependencies = [
  "reth-exex",
  "reth-node-api",
  "serde",
- "signet-blobber",
- "signet-genesis",
+ "signet-blobber 0.11.2",
+ "signet-genesis 0.11.2",
+ "signet-types",
+ "tracing",
+ "trevm",
+]
+
+[[package]]
+name = "signet-node-config"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
+dependencies = [
+ "alloy",
+ "eyre",
+ "init4-bin-base",
+ "reqwest",
+ "reth",
+ "reth-chainspec",
+ "reth-exex",
+ "reth-node-api",
+ "serde",
+ "signet-blobber 0.11.4",
+ "signet-genesis 0.11.4",
  "signet-types",
  "tracing",
  "trevm",
@@ -10628,8 +10687,8 @@ dependencies = [
 
 [[package]]
 name = "signet-node-types"
-version = "0.11.2"
-source = "git+https://github.com/init4tech/node-components?tag=v0.11.2#c2139945a40847c5e8f34ce701b5b6dd6ad76a32"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
 dependencies = [
  "alloy",
  "reth",
@@ -10644,8 +10703,8 @@ dependencies = [
 
 [[package]]
 name = "signet-rpc"
-version = "0.11.2"
-source = "git+https://github.com/init4tech/node-components?tag=v0.11.2#c2139945a40847c5e8f34ce701b5b6dd6ad76a32"
+version = "0.11.4"
+source = "git+https://github.com/init4tech/node-components?tag=v0.11.4#270306447e5166672bf42e2683db382d22c65e44"
 dependencies = [
  "ajj",
  "alloy",
