@@ -10,7 +10,7 @@
 use openssl as _; // silences clippy warning
 
 use init4_bin_base::utils::from_env::FromEnv;
-use reth::providers::ProviderFactory;
+use reth::providers::{ProviderFactory, StateProviderFactory, providers::BlockchainProvider};
 use signet_node::SignetNode;
 use signet_node_config::SignetNodeConfig;
 use std::sync::{Arc, LazyLock};
@@ -36,6 +36,7 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
             .install_exex("Signet", move |ctx| async {
                 let chain_spec: Arc<_> = config.chain_spec().clone();
 
+                // Open the database provider factory.
                 let mut factory = ProviderFactory::new_with_database_path(
                     config.database_path(),
                     chain_spec,
@@ -46,7 +47,13 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                     factory = factory.with_prune_modes(prune_config.segments);
                 }
 
-                Ok(SignetNode::new(ctx, config, factory, CLIENT.clone())?.0.start())
+                // This allows the node to look up contract status.
+                let boxed_factory: Box<dyn StateProviderFactory> =
+                    Box::new(BlockchainProvider::new(factory.clone())?);
+
+                Ok(SignetNode::new(ctx, config, factory.clone(), boxed_factory, CLIENT.clone())?
+                    .0
+                    .start())
             })
             .launch()
             .await
