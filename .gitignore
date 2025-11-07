@@ -7,3 +7,5 @@ jwttoken
 .github/scripts/genesis/out
 .github/scripts/genesis/cache
 .DS_Store
+/data
+/config
