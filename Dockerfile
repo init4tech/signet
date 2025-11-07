@@ -2,7 +2,7 @@
 ### STAGE 0: Create base chef image for building
 ### cargo chef is used to speed up the build process by caching dependencies using docker
 ### Use BUILDPLATFORM to ensure we use the native platform for building
-FROM --platform=$BUILDPLATFORM lukemathwalker/cargo-chef:latest-rust-latest as chef
+FROM --platform=$BUILDPLATFORM rust:1.90-bookworm as chef
 
 RUN cargo install cargo-chef
 
