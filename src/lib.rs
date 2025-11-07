@@ -10,8 +10,8 @@
 use openssl as _; // silences clippy warning
 
 use init4_bin_base::utils::from_env::FromEnv;
-use reth::providers::{ProviderFactory, StateProviderFactory, providers::BlockchainProvider};
-use signet_node::SignetNode;
+use reth::providers::ProviderFactory;
+use signet_node::SignetNodeBuilder;
 use signet_node_config::SignetNodeConfig;
 use std::sync::{Arc, LazyLock};
 
@@ -27,8 +27,6 @@ pub fn node_from_env() -> eyre::Result<()> {
 /// State the Signet node, using the provided config.
 pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
     reth::cli::Cli::parse_args().run(|builder, _| async move {
-        let db_args = reth_db::mdbx::DatabaseArguments::default();
-
         let prune_config = builder.config().prune_config();
 
         let handle = builder
@@ -40,18 +38,18 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                 let mut factory = ProviderFactory::new_with_database_path(
                     config.database_path(),
                     chain_spec,
-                    db_args,
+                    Default::default(),
                     config.static_file_rw()?,
                 )?;
                 if let Some(prune_config) = prune_config {
                     factory = factory.with_prune_modes(prune_config.segments);
                 }
 
-                // This allows the node to look up contract status.
-                let boxed_factory: Box<dyn StateProviderFactory> =
-                    Box::new(BlockchainProvider::new(factory.clone())?);
-
-                Ok(SignetNode::new(ctx, config, factory.clone(), boxed_factory, CLIENT.clone())?
+                Ok(SignetNodeBuilder::new(config)
+                    .with_factory(factory.clone())
+                    .with_ctx(ctx)
+                    .with_client(CLIENT.clone())
+                    .build()?
                     .0
                     .start())
             })
