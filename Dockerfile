@@ -1,7 +1,8 @@
 #syntax=docker/dockerfile:1.7-labs
 ### STAGE 0: Create base chef image for building
 ### cargo chef is used to speed up the build process by caching dependencies using docker
-FROM --platform=$TARGETPLATFORM lukemathwalker/cargo-chef:latest-rust-latest as chef
+### Use BUILDPLATFORM to ensure we use the native platform for building
+FROM --platform=$BUILDPLATFORM lukemathwalker/cargo-chef:latest-rust-latest as chef
 
 RUN cargo install cargo-chef
 
