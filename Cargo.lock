@@ -10618,14 +10618,13 @@ dependencies = [
 
 [[package]]
 name = "signet"
-version = "0.4.0"
+version = "1.0.0-rc.0"
 dependencies = [
  "eyre",
  "init4-bin-base",
  "openssl",
  "reqwest",
  "reth",
- "reth-db",
  "reth-node-ethereum",
  "signet-node",
  "signet-node-config",
@@ -10634,8 +10633,8 @@ dependencies = [
 
 [[package]]
 name = "signet-blobber"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "foundry-blob-explorers",
@@ -10656,8 +10655,8 @@ dependencies = [
 
 [[package]]
 name = "signet-block-processor"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "eyre",
@@ -10708,8 +10707,8 @@ dependencies = [
 
 [[package]]
 name = "signet-db"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "auto_impl",
@@ -10759,8 +10758,8 @@ dependencies = [
 
 [[package]]
 name = "signet-genesis"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "init4-bin-base",
@@ -10784,8 +10783,8 @@ dependencies = [
 
 [[package]]
 name = "signet-node"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "eyre",
@@ -10812,8 +10811,8 @@ dependencies = [
 
 [[package]]
 name = "signet-node-config"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "eyre",
@@ -10834,8 +10833,8 @@ dependencies = [
 
 [[package]]
 name = "signet-node-types"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "alloy",
  "reth",
@@ -10850,8 +10849,8 @@ dependencies = [
 
 [[package]]
 name = "signet-rpc"
-version = "0.14.1"
-source = "git+https://github.com/init4tech/node-components?tag=v0.14.1#adf32747e02a693071d966215ba42aa23e4ed4b3"
+version = "0.14.2"
+source = "git+https://github.com/init4tech/node-components?tag=v0.14.2#cde20ff0e9bf0b58f7758319f8203c2a1c86fb7c"
 dependencies = [
  "ajj",
  "alloy",
