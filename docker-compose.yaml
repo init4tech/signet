@@ -1,92 +1,54 @@
-
-name: 'signet-node'
-
 services:
-  signet:
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
+  cl:
+    image: 637423570300.dkr.ecr.us-east-1.amazonaws.com/pecorino-lighthouse:latest
+    pull_policy: always
+    ports: 
+      - 9000:9000
+      - 9000:9000/udp
+      - 4000:4000
+      - 5052:5052
+      - 5054:5054
+    volumes:
+      - ./data/lighthouse-data:/data
+      - ./config/:/etc/lighthouse/execution-jwt
+    command: lighthouse beacon_node --listen-address=0.0.0.0 --port=9000 --http --http-address=0.0.0.0 --http-port=4000 --execution-endpoints=http://signet-execution-1:8551 --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776 --metrics --metrics-address=0.0.0.0 --metrics-allow-origin=* --metrics-port=5054 --testnet-dir=/network-configs --checkpoint-sync-url=http://checkpoint.pecorino.signet.sh:4000 --execution-jwt=/etc/lighthouse/execution-jwt/jwt.hex --boot-nodes=enr:-N24QImZ9SWyhE42f1TNAWO9SIznlBXY9nmwnfFc4rKLhdCZJbHuWDBR9pqzf0PgC2x0LqbaGgUncKh0lOYanGe1rXEQh2F0dG5ldHOIAAAAAAAAAACGY2xpZW500YpMaWdodGhvdXNlhTcuMS4whGV0aDKQ0RwldmAAADj__________4JpZIJ2NIJpcIQ0zo69hHF1aWOCIymJc2VjcDI1NmsxoQLv7zU7ZB7DyIacpuHOU4Z55y38hlMkav68NUgtAgetg4hzeW5jbmV0cwCDdGNwgiMog3VkcIIjKA
+  execution:
+    pull_policy: always
+    image: 637423570300.dkr.ecr.us-east-1.amazonaws.com/pecorino-signet:sha-5cb013a
+    ports:
+      - 8551:8551
+      - 30303:30303
+      - 30303:30303/udp
+      - 9001:9001
+      - 8545:8545
+      - 8546:8546
+      - 8645:8645
+      - 8646:8646
     environment:
-      BASE_FEE_RECIPIENT: 0xe0eDA3701D44511ce419344A4CeD30B52c9Ba231
-      BLOB_EXPLORER_URL: https://holesky.blobscan.com/
-      GENESIS_JSON_PATH: /usr/local/bin/genesis.json
-      IPC_ENDPOINT: /tmp/signet.ipc
-      RPC_PORT: "8546"
-      SIGNET_CHAIN_ID: "17001"
-      SIGNET_DATABASE_PATH: /root/.local/share/exex/holesky/signet/db
-      SIGNET_STATIC_PATH: /root/.local/share/exex/holesky/signet/static
-      TX_FORWARD_URL: https://transactions.holesky.signet.sh/add
-      WS_RPC_PORT: "8547"
-      # rust-specific
-      RUST_LOG: info
-    ports:
-      - '9001:9001' # metrics
-      - '30303:30303' # eth/66 peering
-      - '8545:8545' # rpc
-      - '8546:8546' # signet-node rpc
-      - '8547:8547' # signet-node ws
-      - '8551:8551' # engine
-    volumes:
-      - holesky_data:/root/.local/share/reth/holesky
-      - logs:/root/logs
-      - ./jwttoken:/root/jwt:ro
-    pid: host
-    command: >
-      signet
-      node
-      --chain holesky
-      --metrics 0.0.0.0:9001
-      --log.file.directory /root/logs
-      --authrpc.addr 0.0.0.0
-      --authrpc.port 8551
-      --authrpc.jwtsecret /root/jwt/jwt.hex
-      --http --http.addr 0.0.0.0 --http.port 8545
-      --http.api "eth,net,web3"
+      HOST_ZENITH_CONTRACT_ADDRESS:    0xf17E98baF73F7C78a42D73DF4064de5B7A20EcA6
+      RU_ORDERS_CONTRACT_ADDRESS:      0x8e9806fFF56d0660683F0A8157cE70F541A49dD0
+      HOST_ORDERS_CONTRACT_ADDRESS:    0x0A4f505364De0Aa46c66b15aBae44eBa12ab0380
+      SIGNET_CHAIN_ID:                 14174
+      BLOB_EXPLORER_URL:                http://localhost/
+      SIGNET_STATIC_PATH:               /root/.local/share/exex/holesky/signet/static
+      SIGNET_DATABASE_PATH:             /root/.local/share/exex/holesky/signet/db
+      RUST_LOG:                         info,signet_node=info
+      IPC_ENDPOINT:                     /tmp/signet.ipc
+      RPC_PORT:                         8645
+      WS_RPC_PORT:                      8646
+      TX_FORWARD_URL:                   https://transactions.pecorino.signet.sh/add
+      GENESIS_JSON_PATH:                /usr/local/bin/genesis.json
+      HOST_ZENITH_DEPLOY_HEIGHT:        366
+      BASE_FEE_RECIPIENT:               0xe0eDA3701D44511ce419344A4CeD30B52c9Ba231
+      HOST_PASSAGE_CONTRACT_ADDRESS:    0x12585352AA1057443D6163B539EfD4487f023182
+      HOST_TRANSACTOR_CONTRACT_ADDRESS: 0x3903279B59D3F5194053dA8d1f0C7081C8892Ce4
+      RU_PASSAGE_CONTRACT_ADDRESS:      0x862c10E42B7D07dfDE6F74af61B20A55ca5243FE
+      SIGNET_CL_URL:                     http://dev-cl-1:4000
+      SIGNET_PYLON_URL:                  https://blobs.pecorino.signet.sh
+      CHAIN_NAME:                       pecorino
+    command: signet node --datadir=/root/.local/share/reth/pecorino --chain=/network_configs/genesis.json --http --http.port=8545 --http.addr=0.0.0.0 --http.corsdomain=* --http.api=admin,net,eth,web3,debug,txpool,trace --ws --ws.addr=0.0.0.0 --ws.port=8546 --ws.api=net,eth --ws.origins=* --authrpc.port=8551 --authrpc.jwtsecret=/etc/reth/execution-jwt/jwt.hex --authrpc.addr=0.0.0.0 --metrics=0.0.0.0:9001 --discovery.port=30303 --port=30303 --bootnodes=enode://8abac7cbbff749e59eff40bd4592100d99f1afbc47d2fb86735b2a9446341815b7ce7fecb6ea0706147d393e4500627e57bff560e749c20b9a86049d862a1de1@3.208.199.173:30303
 
-  lighthouse:
-    restart: unless-stopped
-    image: sigp/lighthouse:latest
-    ports:
-      - '5052:5052' # metrics
-      - '5053:5053' # http
-      - '5054:5054' # ws
     volumes:
-      - holesky_data:/root/.lighthouse/holesky
-      - logs:/Users/swanpro/.lighthouse/logs
-      - ./jwttoken:/secrets:ro
-    command: >
-      lighthouse
-      bn
-      --execution-endpoint
-      http://signet-node-signet-1:8551/
-      --execution-jwt
-      /secrets/jwt.hex
-      --network
-      holesky
-      --checkpoint-sync-url
-      https://checkpoint-sync.holesky.ethpandaops.io
-      --http
-      --http-address
-      0.0.0.0
-      --http-port
-      8545
-      --disable-deposit-contract-sync
-      --metrics
-      --metrics-address
-      0.0.0.0
-      --metrics-port
-      5054
-      --checkpoint-sync-url-timeout
-      300
-volumes:
-  holesky_data:
-    driver: local
-  holesky_lh_data:
-    driver: local
-  logs:
-    driver: local
-  prometheusdata:
-    driver: local
-  grafanadata:
-    driver: local
+      - ./data/signet-data:/data
+      - ./config/:/etc/reth/execution-jwt
+
