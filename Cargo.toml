@@ -1,6 +1,6 @@
 [package]
 name = "signet"
-version = "1.0.0-rc.1"
+version = "1.0.0-rc.2"
 edition = "2024"
 rust-version = "1.88"
 authors = ["init4"]
@@ -9,11 +9,11 @@ homepage = "https://github.com/init4tech/signet-node"
 repository = "https://github.com/init4tech/signet-node"
 
 [dependencies]
-init4-bin-base = { version = "0.17.0", features = ["alloy"], default-features = false }
+init4-bin-base = { version = "0.18.0-rc.1", features = ["alloy"], default-features = false }
 
 # Node Components
-signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.14.4" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.14.4" }
+signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.2" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.2" }
 
 reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.9.1" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.9.1" }
