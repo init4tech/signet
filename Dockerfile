@@ -37,5 +37,5 @@ RUN --mount=type=ssh cargo build --release --bin signet
 FROM --platform=$TARGETPLATFORM debian:bookworm-slim
 
 COPY --from=builder /app/target/release/signet /usr/local/bin/signet
-
+COPY .github/genesis/parmigiana.genesis.json /network_configs/parmigiana.genesis.json
 CMD ["/usr/local/bin/signet", "node"]
