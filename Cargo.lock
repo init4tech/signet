@@ -4699,9 +4699,9 @@ dependencies = [
 
 [[package]]
 name = "init4-bin-base"
-version = "0.18.0-rc.1"
+version = "0.18.0-rc.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7024fa2e5ac11f6c6230f37fbb527264896653e5b7804695b08d8ffb4f2712f5"
+checksum = "d5fa855cc7e2cf7f9309532b2427177ce163539ff84fc371fcc436f530544b69"
 dependencies = [
  "alloy",
  "axum",
@@ -10696,9 +10696,9 @@ dependencies = [
 
 [[package]]
 name = "signet-constants"
-version = "0.16.0-rc.1"
+version = "0.16.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "130b5aca0f24859877830c063302df5ad4723abc72be6450629f2d1e456a3c97"
+checksum = "3be087eaa5bb90faf4daaf707441061a09bfc6ca24f1eb3cc0886d46186f19a7"
 dependencies = [
  "alloy",
  "serde",
