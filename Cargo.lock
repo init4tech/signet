@@ -4738,9 +4738,9 @@ dependencies = [
 
 [[package]]
 name = "init4-bin-base"
-version = "0.18.0-rc.5"
+version = "0.18.0-rc.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5fa855cc7e2cf7f9309532b2427177ce163539ff84fc371fcc436f530544b69"
+checksum = "300b9df7fddc42d13d9d27d8a3def2c8982b1c02771523117984fe96be127843"
 dependencies = [
  "alloy",
  "axum",
