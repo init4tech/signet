@@ -12,11 +12,11 @@ repository = "https://github.com/init4tech/signet-node"
 init4-bin-base = { version = "0.18.0-rc.6", features = ["alloy"], default-features = false }
 
 # Node Components
-signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.4" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.4" }
+signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.5" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.5" }
 
-reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.9.1" }
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.9.1" }
+reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.10.0" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.10.0" }
 
 eyre = "0.6.12"
 openssl = { version = "0.10", features = ["vendored"] }
