@@ -40,7 +40,9 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                     chain_spec,
                     Default::default(),
                     config.static_file_rw()?,
+                    config.open_rocks_db()?,
                 )?;
+
                 if let Some(prune_config) = prune_config {
                     factory = factory.with_prune_modes(prune_config.segments);
                 }
