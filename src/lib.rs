@@ -35,12 +35,15 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                 let chain_spec: Arc<_> = config.chain_spec().clone();
 
                 // Open the database provider factory.
+                let runtime =
+                    reth::tasks::Runtime::with_existing_handle(tokio::runtime::Handle::current())?;
                 let mut factory = ProviderFactory::new_with_database_path(
                     config.database_path(),
                     chain_spec,
                     Default::default(),
                     config.static_file_rw()?,
                     config.open_rocks_db()?,
+                    runtime,
                 )?;
 
                 if let Some(prune_config) = prune_config {
