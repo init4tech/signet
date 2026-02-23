@@ -14,14 +14,38 @@ init4-bin-base = { version = "0.18.0-rc.8", features = ["alloy"], default-featur
 # Node Components
 signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
 signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-block-processor = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-rpc = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-db = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-node-types = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-blobber = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0-rc.7" }
+signet-tx-cache = "0.16.0-rc.8"
+signet-types = "0.16.0-rc.8"
 
-reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.10.2" }
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.10.2" }
+reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-exex = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-node-api = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-db-common = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
+
+alloy = { version = "1.6.1", features = ["consensus", "eips", "serde"] }
 
 eyre = "0.6.12"
 openssl = { version = "0.10", features = ["vendored"] }
 reqwest = { version = "0.12.28", features = ["rustls-tls-native-roots", "json"]}
 tracing = "0.1.44"
+
+# IPC & serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+bincode = "1"
+tokio = { version = "1", features = ["net", "io-util", "macros", "rt-multi-thread", "time"] }
+tokio-util = { version = "0.7", features = ["codec"] }
+bytes = "1"
+futures-util = "0.3"
+lru = "0.12"
 
 [profile.release]
 opt-level = 3
@@ -47,9 +71,19 @@ name = "signet"
 path = "src/signet.rs"
 test = false
 
+[[bin]]
+name = "signet-rollup"
+path = "src/signet_rollup.rs"
+test = false
+
 # [patch.crates-io]
 # init4-bin-base = { path = "../shared" }
 
-# [patch.'https://github.com/init4tech/node-components']
-# signet-node = { path = "../components/crates/node" }
-# signet-node-config = { path = "../components/crates/node-config" }
+[patch.'https://github.com/init4tech/node-components']
+signet-node = { path = "../node-components/crates/node" }
+signet-node-config = { path = "../node-components/crates/node-config" }
+signet-block-processor = { path = "../node-components/crates/block-processor" }
+signet-rpc = { path = "../node-components/crates/rpc" }
+signet-db = { path = "../node-components/crates/db" }
+signet-node-types = { path = "../node-components/crates/node-types" }
+signet-blobber = { path = "../node-components/crates/blobber" }
