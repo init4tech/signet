@@ -56,6 +56,14 @@ const HOST_RPC_URL_ENV: &str = "SIGNET_HOST_RPC_URL";
 const DEFAULT_HOST_RPC_URL: &str = "http://localhost:8545";
 /// Default alias cache size.
 const ALIAS_CACHE_SIZE: usize = 10_000;
+/// Environment variable for the RPC bind address.
+const RPC_ADDR_ENV: &str = "SIGNET_RPC_ADDR";
+/// Environment variable for the HTTP CORS domain.
+const HTTP_CORS_ENV: &str = "SIGNET_HTTP_CORS";
+/// Environment variable for the WS allowed origins.
+const WS_CORS_ENV: &str = "SIGNET_WS_CORS";
+/// Environment variable for the RPC gas cap (eth_call / eth_estimateGas).
+const RPC_GAS_CAP_ENV: &str = "SIGNET_RPC_GAS_CAP";
 
 /// Start the standalone rollup process.
 pub fn run() -> eyre::Result<()> {
@@ -622,10 +630,17 @@ async fn start_rpc(
 ) -> eyre::Result<RpcServerGuard> {
     use signet_rpc::RpcCtx;
     use signet_tx_cache::TxCache;
+    use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
     let forwarder =
         config.forward_url().map(|url| TxCache::new_with_client(url, client));
-    let eth_config = reth::rpc::server_types::eth::EthConfig::default();
+
+    // Build EthConfig from env vars (standalone mode has no reth CLI args).
+    let mut eth_config = reth::rpc::server_types::eth::EthConfig::default();
+    if let Ok(gas_cap) = std::env::var(RPC_GAS_CAP_ENV) {
+        let cap: u64 = gas_cap.parse().wrap_err("invalid SIGNET_RPC_GAS_CAP")?;
+        eth_config = eth_config.rpc_gas_cap(cap);
+    }
 
     // Create RPC context without host chain components
     let ctx: RpcCtx<(), _> = RpcCtx::new_standalone(
@@ -638,14 +653,23 @@ async fn start_rpc(
 
     let router = signet_rpc::router_standalone().with_state(ctx);
 
-    // Build serve config directly (standalone mode: no Reth RpcServerArgs available)
-    use std::net::{IpAddr, Ipv4Addr, SocketAddr};
-    let bind_addr = IpAddr::V4(Ipv4Addr::UNSPECIFIED);
+    // Bind address: default to localhost (matches reth default), overridable via env.
+    let bind_addr: IpAddr = std::env::var(RPC_ADDR_ENV)
+        .ok()
+        .map(|s| s.parse())
+        .transpose()
+        .wrap_err("invalid SIGNET_RPC_ADDR")?
+        .unwrap_or(IpAddr::V4(Ipv4Addr::LOCALHOST));
+
+    // CORS: read from env vars (None means allow-all, matching reth default behavior).
+    let http_cors = std::env::var(HTTP_CORS_ENV).ok();
+    let ws_cors = std::env::var(WS_CORS_ENV).ok();
+
     let serve_config = signet_rpc::ServeConfig {
         http: vec![SocketAddr::new(bind_addr, config.http_port())],
-        http_cors: None,
+        http_cors,
         ws: vec![SocketAddr::new(bind_addr, config.ws_port())],
-        ws_cors: None,
+        ws_cors,
         ipc: config.ipc_endpoint().map(ToOwned::to_owned),
     };
     serve_config.serve(task_executor, router).await
