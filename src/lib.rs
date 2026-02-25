@@ -41,6 +41,7 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                     Default::default(),
                     config.static_file_rw()?,
                     config.open_rocks_db()?,
+                    ctx.task_executor().clone(),
                 )?;
 
                 if let Some(prune_config) = prune_config {
