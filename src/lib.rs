@@ -20,8 +20,28 @@ pub static CLIENT: LazyLock<reqwest::Client> =
     LazyLock::new(|| reqwest::Client::builder().use_rustls_tls().build().unwrap());
 
 /// Start the Signet node, reading config from env.
+///
+/// When `SIGNET_DISABLE_EXEX=true` (or `1`), the node runs as vanilla reth
+/// without the Signet ExEx. This is used during initial chain sync so that
+/// reth can sync to tip before the ExEx is enabled.
 pub fn node_from_env() -> eyre::Result<()> {
+    if std::env::var("SIGNET_DISABLE_EXEX").is_ok_and(|v| v == "true" || v == "1") {
+        return node_without_exex();
+    }
     SignetNodeConfig::from_env().map(node)?
+}
+
+/// Run the node as vanilla reth without the Signet ExEx.
+fn node_without_exex() -> eyre::Result<()> {
+    reth::cli::Cli::parse_args().run(|builder, _| async move {
+        let handle = builder
+            .node(reth_node_ethereum::EthereumNode::default())
+            .launch()
+            .await
+            .inspect_err(|err| tracing::error!(%err, "Failed to boot vanilla reth"))?;
+
+        handle.wait_for_node_exit().await
+    })
 }
 
 /// State the Signet node, using the provided config.
