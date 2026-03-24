@@ -7,7 +7,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -25,6 +24,11 @@ jobs:
             group: amd64-large-runners
           - platform: linux/arm64
             group: arm64-large-runners
+        binary:
+          - name: signet-exex
+            dockerfile: Dockerfile.exex
+          - name: signet-sidecar
+            dockerfile: Dockerfile.sidecar
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -43,7 +47,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary.name }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -57,22 +61,24 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: ${{ matrix.binary.dockerfile }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
-          cache-from: type=gha,scope=build-${{ matrix.platform }}
-          cache-to: type=gha,mode=max,scope=build-${{ matrix.platform }}
+          outputs: type=image,name=${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary.name }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=build-${{ matrix.binary.name }}-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=build-${{ matrix.binary.name }}-${{ matrix.platform }}
+
       - name: Export digest
         run: |
-          mkdir -p /tmp/digests
+          mkdir -p /tmp/digests/${{ matrix.binary.name }}
           digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
+          touch "/tmp/digests/${{ matrix.binary.name }}/${digest#sha256:}"
 
       - name: Upload digest
         uses: actions/upload-artifact@v7
         with:
-          name: digests-${{ strategy.job-index }}
-          path: /tmp/digests/*
+          name: digests-${{ matrix.binary.name }}-${{ strategy.job-index }}
+          path: /tmp/digests/${{ matrix.binary.name }}/*
           if-no-files-found: error
           retention-days: 1
 
@@ -84,12 +90,17 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+    strategy:
+      matrix:
+        binary:
+          - signet-exex
+          - signet-sidecar
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
         with:
           path: /tmp/digests
-          pattern: digests-*
+          pattern: digests-${{ matrix.binary }}-*
           merge-multiple: true
 
       - name: Set up Docker Buildx
@@ -106,7 +117,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -119,8 +130,8 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+            $(printf '${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}:${{ steps.meta.outputs.version }}

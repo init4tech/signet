@@ -1,3 +1,3 @@
 fn main() -> eyre::Result<()> {
-    signet::node_from_env()
+    signet_exex::node_from_env()
 }

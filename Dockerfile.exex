@@ -1,0 +1,33 @@
+#syntax=docker/dockerfile:1.7-labs
+### STAGE 0: Create base chef image for building
+FROM --platform=$BUILDPLATFORM rust:1.90-bookworm as chef
+
+RUN cargo install cargo-chef
+
+WORKDIR /app
+
+### Stage 1: cargo chef prepare
+FROM chef as planner
+COPY --exclude=target . .
+RUN cargo chef prepare
+
+### Stage 2: Build the project
+FROM chef as builder
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+COPY --from=planner /app/recipe.json recipe.json
+RUN mkdir -p /root/.ssh
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+
+RUN apt-get update && apt-get -y upgrade && apt-get install -y gcc libclang-dev pkg-config libssl-dev
+
+RUN --mount=type=ssh cargo chef cook --release --recipe-path recipe.json
+COPY --exclude=target . .
+
+RUN --mount=type=ssh cargo build --release --bin signet-exex
+
+### Stage 3: Final image
+FROM --platform=$TARGETPLATFORM debian:bookworm-slim
+
+COPY --from=builder /app/target/release/signet-exex /usr/local/bin/signet-exex
+COPY ./.github/genesis/parmigiana-host.genesis.json /network_configs/parmigiana-host.genesis.json
+CMD ["/usr/local/bin/signet-exex", "node"]

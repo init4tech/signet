@@ -1,25 +1,26 @@
-// TODO: ENG-480 - Remove allow dead code macros
-// https://linear.app/initiates/issue/ENG-480/remove-allow-dead-code-proc-macros
 #![cfg_attr(not(test), warn(unused_crate_dependencies))]
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 #![deny(unused_must_use, rust_2018_idioms)]
 #![warn(missing_docs, missing_copy_implementations, missing_debug_implementations)]
 
-//! # Signet
-
-use openssl as _; // silences clippy warning
+//! # Signet ExEx
+//!
+//! Signet node binary running as a reth Execution Extension (ExEx).
 
 use init4_bin_base::utils::from_env::FromEnv;
-use reth::providers::ProviderFactory;
+use openssl as _;
+use signet_blobber::BlobFetcher;
+use signet_host_reth::{RethAliasOracleFactory, RethBlobSource, decompose_exex_context};
 use signet_node::SignetNodeBuilder;
 use signet_node_config::SignetNodeConfig;
 use std::sync::{Arc, LazyLock};
+use tokio_util::sync::CancellationToken;
 
-/// The global reqwest client used throughout the node.
-pub static CLIENT: LazyLock<reqwest::Client> =
+/// Global reqwest client.
+static CLIENT: LazyLock<reqwest::Client> =
     LazyLock::new(|| reqwest::Client::builder().use_rustls_tls().build().unwrap());
 
-/// Start the Signet node, reading config from env.
+/// Start the Signet ExEx node, reading config from env.
 ///
 /// When `SIGNET_DISABLE_EXEX=true` (or `1`), the node runs as vanilla reth
 /// without the Signet ExEx. This is used during initial chain sync so that
@@ -44,35 +45,36 @@ fn node_without_exex() -> eyre::Result<()> {
     })
 }
 
-/// State the Signet node, using the provided config.
+/// Start the Signet ExEx node with the provided config.
 pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
     reth::cli::Cli::parse_args().run(|builder, _| async move {
-        let prune_config = builder.config().prune_config();
-
         let handle = builder
             .node(reth_node_ethereum::EthereumNode::default())
-            .install_exex("Signet", move |ctx| async {
-                let chain_spec: Arc<_> = config.chain_spec().clone();
+            .install_exex("Signet", move |ctx| async move {
+                let provider = ctx.provider().clone();
+                let decomposed = decompose_exex_context(ctx);
 
-                // Open the database provider factory.
-                let mut factory = ProviderFactory::new_with_database_path(
-                    config.database_path(),
-                    chain_spec,
-                    Default::default(),
-                    config.static_file_rw()?,
-                    config.open_rocks_db()?,
-                    ctx.task_executor().clone(),
-                )?;
+                let cancel = CancellationToken::new();
+                let storage = Arc::new(config.storage().build_storage(cancel.clone()).await?);
 
-                if let Some(prune_config) = prune_config {
-                    factory = factory.with_prune_modes(prune_config.segments);
-                }
+                let alias_oracle = RethAliasOracleFactory::new(Box::new(provider));
+
+                let blob_cacher = BlobFetcher::builder()
+                    .with_source(RethBlobSource(decomposed.pool))
+                    .with_config(config.block_extractor(), CLIENT.clone())?
+                    .build_cache()
+                    .spawn();
 
                 Ok(SignetNodeBuilder::new(config)
-                    .with_factory(factory.clone())
-                    .with_ctx(ctx)
+                    .with_notifier(decomposed.notifier)
+                    .with_storage(storage)
+                    .with_alias_oracle(alias_oracle)
+                    .with_blob_cacher(blob_cacher)
+                    .with_serve_config(decomposed.serve_config)
+                    .with_rpc_config(decomposed.rpc_config)
                     .with_client(CLIENT.clone())
-                    .build()?
+                    .build()
+                    .await?
                     .0
                     .start())
             })

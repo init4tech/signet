@@ -12,13 +12,23 @@ permissions:
   contents: read
   id-token: write
 
-# simplest example of using the rust-base action
 jobs:
-  docker-ecr-push:
+  docker-ecr-push-exex:
     uses: init4tech/actions/.github/workflows/ecr-build-and-push.yml@main
     with:
-      rust-binary-name: signet
+      rust-binary-name: signet-exex
       environment: dev
+      dockerfile-path: Dockerfile.exex
+    secrets:
+      aws-ecr-repository: ${{ secrets.AWS_ECR_REPOSITORY }}
+      aws-ecr-deployer-role-arn: ${{ secrets.AWS_ECR_DEPLOYER_ROLE_ARN }}
+
+  docker-ecr-push-sidecar:
+    uses: init4tech/actions/.github/workflows/ecr-build-and-push.yml@main
+    with:
+      rust-binary-name: signet-sidecar
+      environment: dev
+      dockerfile-path: Dockerfile.sidecar
     secrets:
       aws-ecr-repository: ${{ secrets.AWS_ECR_REPOSITORY }}
       aws-ecr-deployer-role-arn: ${{ secrets.AWS_ECR_DEPLOYER_ROLE_ARN }}
