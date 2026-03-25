@@ -46,7 +46,7 @@ fn node_without_exex() -> eyre::Result<()> {
 }
 
 /// Start the Signet ExEx node with the provided config.
-pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
+pub(crate) fn node(config: SignetNodeConfig) -> eyre::Result<()> {
     reth::cli::Cli::parse_args().run(|builder, _| async move {
         let handle = builder
             .node(reth_node_ethereum::EthereumNode::default())
@@ -55,6 +55,7 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
                 let decomposed = decompose_exex_context(ctx);
 
                 let cancel = CancellationToken::new();
+                spawn_shutdown_handler(cancel.clone());
                 let storage = Arc::new(config.storage().build_storage(cancel.clone()).await?);
 
                 let alias_oracle = RethAliasOracleFactory::new(Box::new(provider));
@@ -84,4 +85,25 @@ pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
 
         handle.wait_for_node_exit().await
     })
+}
+
+/// Spawn a task that cancels the given token on receipt of a shutdown
+/// signal (SIGINT on all platforms, plus SIGTERM on unix).
+fn spawn_shutdown_handler(cancel: CancellationToken) {
+    tokio::spawn(async move {
+        #[cfg(unix)]
+        {
+            use tokio::signal::unix::{SignalKind, signal};
+            let mut sigterm =
+                signal(SignalKind::terminate()).expect("failed to install SIGTERM handler");
+            tokio::select! {
+                _ = tokio::signal::ctrl_c() => {}
+                _ = sigterm.recv() => {}
+            }
+        }
+        #[cfg(not(unix))]
+        tokio::signal::ctrl_c().await.ok();
+
+        cancel.cancel();
+    });
 }

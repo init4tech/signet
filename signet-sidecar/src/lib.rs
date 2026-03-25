@@ -19,7 +19,6 @@ use signet_node_config::SignetNodeConfig;
 use signet_rpc::{ServeConfigEnv, StorageRpcConfigEnv};
 use std::sync::{Arc, LazyLock};
 use tokio_util::sync::CancellationToken;
-use tracing as _;
 
 /// Global reqwest client.
 static CLIENT: LazyLock<reqwest::Client> =
@@ -37,6 +36,7 @@ async fn run_inner() -> eyre::Result<()> {
     let rpc_config = StorageRpcConfigEnv::from_env()?.into();
 
     let cancel = CancellationToken::new();
+    spawn_shutdown_handler(cancel.clone());
     let storage = Arc::new(config.storage().build_storage(cancel.clone()).await?);
 
     let slot_calculator = config.slot_calculator();
@@ -65,4 +65,25 @@ async fn run_inner() -> eyre::Result<()> {
         .await?;
 
     node.start().await
+}
+
+/// Spawn a task that cancels the given token on receipt of a shutdown
+/// signal (SIGINT on all platforms, plus SIGTERM on unix).
+fn spawn_shutdown_handler(cancel: CancellationToken) {
+    tokio::spawn(async move {
+        #[cfg(unix)]
+        {
+            use tokio::signal::unix::{SignalKind, signal};
+            let mut sigterm =
+                signal(SignalKind::terminate()).expect("failed to install SIGTERM handler");
+            tokio::select! {
+                _ = tokio::signal::ctrl_c() => {}
+                _ = sigterm.recv() => {}
+            }
+        }
+        #[cfg(not(unix))]
+        tokio::signal::ctrl_c().await.ok();
+
+        cancel.cancel();
+    });
 }

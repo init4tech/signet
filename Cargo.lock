@@ -10777,6 +10777,7 @@ dependencies = [
  "signet-host-reth",
  "signet-node",
  "signet-node-config",
+ "tokio",
  "tokio-util",
  "tracing",
 ]
@@ -11020,7 +11021,6 @@ dependencies = [
  "signet-rpc",
  "tokio",
  "tokio-util",
- "tracing",
 ]
 
 [[package]]
