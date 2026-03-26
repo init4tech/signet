@@ -15,7 +15,7 @@ init4-bin-base = { version = "0.18.0-rc.8", features = ["alloy"], default-featur
 signet-blobber = { git = "https://github.com/init4tech/node-components", branch = "develop" }
 signet-host-reth = { git = "https://github.com/init4tech/node-components", branch = "develop" }
 signet-node = { git = "https://github.com/init4tech/node-components", branch = "develop" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", branch = "develop" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", branch = "develop", features = ["postgres"] }
 
 reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }

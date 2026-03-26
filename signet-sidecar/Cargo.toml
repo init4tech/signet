@@ -15,7 +15,7 @@ init4-bin-base = { version = "0.18.0-rc.8", features = ["alloy"], default-featur
 signet-blobber = { git = "https://github.com/init4tech/node-components", branch = "develop" }
 signet-host-rpc = { git = "https://github.com/init4tech/node-components", branch = "develop" }
 signet-node = { git = "https://github.com/init4tech/node-components", branch = "develop" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", branch = "develop" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", branch = "develop", features = ["postgres"] }
 signet-rpc = { git = "https://github.com/init4tech/node-components", branch = "develop" }
 
 eyre = "0.6.12"
