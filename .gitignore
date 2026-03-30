@@ -9,3 +9,5 @@ jwttoken
 .DS_Store
 /data
 /config
+.claude/*.local.*
+CLAUDE.local.md
