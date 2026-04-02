@@ -13,22 +13,21 @@ permissions:
   id-token: write
 
 jobs:
-  docker-ecr-push-exex:
+  docker-ecr-push:
+    strategy:
+      matrix:
+        include:
+          - binary: signet
+            dockerfile: Dockerfile
+          - binary: signet-exex
+            dockerfile: Dockerfile.exex
+          - binary: signet-sidecar
+            dockerfile: Dockerfile.sidecar
     uses: init4tech/actions/.github/workflows/ecr-build-and-push.yml@main
     with:
-      rust-binary-name: signet-exex
+      rust-binary-name: ${{ matrix.binary }}
+      dockerfile-path: ${{ matrix.dockerfile }}
       environment: dev
-      dockerfile-path: Dockerfile.exex
-    secrets:
-      aws-ecr-repository: ${{ secrets.AWS_ECR_REPOSITORY }}
-      aws-ecr-deployer-role-arn: ${{ secrets.AWS_ECR_DEPLOYER_ROLE_ARN }}
-
-  docker-ecr-push-sidecar:
-    uses: init4tech/actions/.github/workflows/ecr-build-and-push.yml@main
-    with:
-      rust-binary-name: signet-sidecar
-      environment: dev
-      dockerfile-path: Dockerfile.sidecar
     secrets:
       aws-ecr-repository: ${{ secrets.AWS_ECR_REPOSITORY }}
       aws-ecr-deployer-role-arn: ${{ secrets.AWS_ECR_DEPLOYER_ROLE_ARN }}

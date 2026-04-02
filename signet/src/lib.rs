@@ -1,0 +1,85 @@
+// TODO: ENG-480 - Remove allow dead code macros
+// https://linear.app/initiates/issue/ENG-480/remove-allow-dead-code-proc-macros
+#![cfg_attr(not(test), warn(unused_crate_dependencies))]
+#![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
+#![deny(unused_must_use, rust_2018_idioms)]
+#![warn(missing_docs, missing_copy_implementations, missing_debug_implementations)]
+
+//! # Signet
+
+use openssl as _; // silences clippy warning
+
+use init4_bin_base::utils::from_env::FromEnv;
+use reth::providers::ProviderFactory;
+use signet_node::SignetNodeBuilder;
+use signet_node_config::SignetNodeConfig;
+use std::sync::{Arc, LazyLock};
+
+/// The global reqwest client used throughout the node.
+pub static CLIENT: LazyLock<reqwest::Client> =
+    LazyLock::new(|| reqwest::Client::builder().use_rustls_tls().build().unwrap());
+
+/// Start the Signet node, reading config from env.
+///
+/// When `SIGNET_DISABLE_EXEX=true` (or `1`), the node runs as vanilla reth
+/// without the Signet ExEx. This is used during initial chain sync so that
+/// reth can sync to tip before the ExEx is enabled.
+pub fn node_from_env() -> eyre::Result<()> {
+    if std::env::var("SIGNET_DISABLE_EXEX").is_ok_and(|v| v == "true" || v == "1") {
+        return node_without_exex();
+    }
+    SignetNodeConfig::from_env().map(node)?
+}
+
+/// Run the node as vanilla reth without the Signet ExEx.
+fn node_without_exex() -> eyre::Result<()> {
+    reth::cli::Cli::parse_args().run(|builder, _| async move {
+        let handle = builder
+            .node(reth_node_ethereum::EthereumNode::default())
+            .launch()
+            .await
+            .inspect_err(|err| tracing::error!(%err, "Failed to boot vanilla reth"))?;
+
+        handle.wait_for_node_exit().await
+    })
+}
+
+/// State the Signet node, using the provided config.
+pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
+    reth::cli::Cli::parse_args().run(|builder, _| async move {
+        let prune_config = builder.config().prune_config();
+
+        let handle = builder
+            .node(reth_node_ethereum::EthereumNode::default())
+            .install_exex("Signet", move |ctx| async {
+                let chain_spec: Arc<_> = config.chain_spec().clone();
+
+                // Open the database provider factory.
+                let mut factory = ProviderFactory::new_with_database_path(
+                    config.database_path(),
+                    chain_spec,
+                    Default::default(),
+                    config.static_file_rw()?,
+                    config.open_rocks_db()?,
+                    ctx.task_executor().clone(),
+                )?;
+
+                if let Some(prune_config) = prune_config {
+                    factory = factory.with_prune_modes(prune_config.segments);
+                }
+
+                Ok(SignetNodeBuilder::new(config)
+                    .with_factory(factory.clone())
+                    .with_ctx(ctx)
+                    .with_client(CLIENT.clone())
+                    .build()?
+                    .0
+                    .start())
+            })
+            .launch()
+            .await
+            .inspect_err(|err| tracing::error!(%err, "Failed to boot"))?;
+
+        handle.wait_for_node_exit().await
+    })
+}

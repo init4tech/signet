@@ -7,6 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  BASE_IMAGE: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -22,12 +23,27 @@ jobs:
         include:
           - platform: linux/amd64
             group: amd64-large-runners
+            binary: signet
+            dockerfile: Dockerfile
           - platform: linux/arm64
             group: arm64-large-runners
-        binary:
-          - name: signet-exex
+            binary: signet
+            dockerfile: Dockerfile
+          - platform: linux/amd64
+            group: amd64-large-runners
+            binary: signet-exex
             dockerfile: Dockerfile.exex
-          - name: signet-sidecar
+          - platform: linux/arm64
+            group: arm64-large-runners
+            binary: signet-exex
+            dockerfile: Dockerfile.exex
+          - platform: linux/amd64
+            group: amd64-large-runners
+            binary: signet-sidecar
+            dockerfile: Dockerfile.sidecar
+          - platform: linux/arm64
+            group: arm64-large-runners
+            binary: signet-sidecar
             dockerfile: Dockerfile.sidecar
     steps:
       - name: Checkout repository
@@ -43,11 +59,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image name
+        id: image
+        run: |
+          if [ "${{ matrix.binary }}" = "signet" ]; then
+            echo "name=${{ env.REGISTRY }}/${{ env.BASE_IMAGE }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${{ env.REGISTRY }}/${{ env.BASE_IMAGE }}/${{ matrix.binary }}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary.name }}
+          images: ${{ steps.image.outputs.name }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -61,24 +86,24 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ${{ matrix.binary.dockerfile }}
+          file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary.name }},push-by-digest=true,name-canonical=true,push=true
-          cache-from: type=gha,scope=build-${{ matrix.binary.name }}-${{ matrix.platform }}
-          cache-to: type=gha,mode=max,scope=build-${{ matrix.binary.name }}-${{ matrix.platform }}
+          outputs: type=image,name=${{ steps.image.outputs.name }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=build-${{ matrix.binary }}-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=build-${{ matrix.binary }}-${{ matrix.platform }}
 
       - name: Export digest
         run: |
-          mkdir -p /tmp/digests/${{ matrix.binary.name }}
+          mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${{ matrix.binary.name }}/${digest#sha256:}"
+          touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
         uses: actions/upload-artifact@v7
         with:
-          name: digests-${{ matrix.binary.name }}-${{ strategy.job-index }}
-          path: /tmp/digests/${{ matrix.binary.name }}/*
+          name: digests-${{ matrix.binary }}-${{ strategy.job-index }}
+          path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
 
@@ -92,9 +117,7 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        binary:
-          - signet-exex
-          - signet-sidecar
+        binary: [signet, signet-exex, signet-sidecar]
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
@@ -113,11 +136,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image name
+        id: image
+        run: |
+          if [ "${{ matrix.binary }}" = "signet" ]; then
+            echo "name=${{ env.REGISTRY }}/${{ env.BASE_IMAGE }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${{ env.REGISTRY }}/${{ env.BASE_IMAGE }}/${{ matrix.binary }}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}
+          images: ${{ steps.image.outputs.name }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -130,8 +162,8 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}@sha256:%s ' *)
+            $(printf '${{ steps.image.outputs.name }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.binary }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ steps.image.outputs.name }}:${{ steps.meta.outputs.version }}

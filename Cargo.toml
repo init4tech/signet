@@ -1,5 +1,5 @@
 [workspace]
-members = ["signet-exex", "signet-sidecar"]
+members = ["signet", "signet-exex", "signet-sidecar"]
 resolver = "3"
 
 [profile.release]
