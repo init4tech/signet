@@ -44,7 +44,7 @@ fn node_without_exex() -> eyre::Result<()> {
     })
 }
 
-/// State the Signet node, using the provided config.
+/// Start the Signet node, using the provided config.
 pub fn node(config: SignetNodeConfig) -> eyre::Result<()> {
     reth::cli::Cli::parse_args().run(|builder, _| async move {
         let prune_config = builder.config().prune_config();

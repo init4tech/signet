@@ -25,7 +25,6 @@ COPY --from=planner /app/recipe.json recipe.json
 RUN mkdir -p /root/.ssh
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
-COPY --from=planner /app/recipe.json recipe.json
 RUN apt-get update && apt-get -y upgrade && apt-get install -y gcc libclang-dev pkg-config libssl-dev
 
 RUN --mount=type=ssh cargo chef cook --release --recipe-path recipe.json --bin signet
