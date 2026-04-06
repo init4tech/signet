@@ -20,12 +20,12 @@ RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 RUN apt-get update && apt-get -y upgrade && apt-get install -y gcc libclang-dev pkg-config libssl-dev
 
-RUN --mount=type=ssh cargo chef cook --release --recipe-path recipe.json
+RUN --mount=type=ssh cargo chef cook --release --recipe-path recipe.json --bin signet-exex
 COPY --exclude=target . .
 
 RUN --mount=type=ssh cargo build --release --bin signet-exex
 
-### Stage 3: Final image
+# Stage 3: Final image for running in the env
 FROM --platform=$TARGETPLATFORM debian:bookworm-slim
 
 COPY --from=builder /app/target/release/signet-exex /usr/local/bin/signet-exex
