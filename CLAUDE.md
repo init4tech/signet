@@ -29,6 +29,7 @@ before every `git push`. The push is blocked if any check fails. The checks:
 
 Clippy and doc warnings are hard failures.
 
+
 ## Dependencies
 
 - **signet**: node-components pinned to legacy git tag (0.16 line). Uses reth.
