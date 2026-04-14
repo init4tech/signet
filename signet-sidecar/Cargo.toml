@@ -2,7 +2,7 @@
 name = "signet-sidecar"
 version = "1.0.0-rc.10"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.92"
 authors = ["init4"]
 license = "UNLICENSED"
 homepage = "https://github.com/init4tech/signet"
