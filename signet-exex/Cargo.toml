@@ -13,7 +13,7 @@ init4-bin-base = { version = "0.19", features = ["alloy"], default-features = fa
 
 # Node Components
 signet-blobber = { git = "https://github.com/init4tech/node-components", tag = "v0.17.0" }
-signet-host-reth = { git = "https://github.com/init4tech/node-components", tag = "v0.17.0" }
+signet-host-reth = { git = "https://github.com/init4tech/node-components", tag = "v0.17.2" }
 signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.17.0" }
 signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.17.0", features = ["postgres"] }
 
