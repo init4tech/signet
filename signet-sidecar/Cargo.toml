@@ -1,6 +1,6 @@
 [package]
 name = "signet-sidecar"
-version = "1.0.0-rc.10"
+version = "1.0.0"
 edition = "2024"
 rust-version = "1.92"
 authors = ["init4"]
