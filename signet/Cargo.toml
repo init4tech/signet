@@ -9,11 +9,11 @@ homepage = "https://github.com/init4tech/signet"
 repository = "https://github.com/init4tech/signet"
 
 [dependencies]
-init4-bin-base = { version = "0.21", features = ["alloy"], default-features = false }
+init4-bin-base = { version = "0.19", features = ["alloy"], default-features = false }
 
 # Node Components
-signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.18.0" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.18.0" }
+signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.16.0" }
 
 reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.3" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.3" }
