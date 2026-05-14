@@ -310,9 +310,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-eip7928"
-version = "0.3.5"
+version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec6ae911a2fc304a7cb80a79fb7bed6d1474aed4e7c203df1f8ff538f64fc78d"
+checksum = "6b827a6d7784fe3eb3489d40699407a4cdcce74271421a01bdffe60cf573bb16"
 dependencies = [
  "alloy-primitives",
  "alloy-rlp",
@@ -320,6 +320,7 @@ dependencies = [
  "borsh",
  "once_cell",
  "serde",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -1566,9 +1567,9 @@ dependencies = [
 
 [[package]]
 name = "aws-lc-rs"
-version = "1.16.3"
+version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ec6fb3fe69024a75fa7e1bfb48aa6cf59706a101658ea01bfd33b2b248a038f"
+checksum = "5ec2f1fc3ec205783a5da9a7e6c1509cc69dedf09a1949e412c1e18469326d00"
 dependencies = [
  "aws-lc-sys",
  "zeroize",
@@ -1576,9 +1577,9 @@ dependencies = [
 
 [[package]]
 name = "aws-lc-sys"
-version = "0.40.0"
+version = "0.41.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f50037ee5e1e41e7b8f9d161680a725bd1626cb6f8c7e901f91f942850852fe7"
+checksum = "1a2f9779ce85b93ab6170dd940ad0169b5766ff848247aff13bb788b832fe3f4"
 dependencies = [
  "cc",
  "cmake",
@@ -2419,9 +2420,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.61"
+version = "1.2.62"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d16d90359e986641506914ba71350897565610e87ce0ad9e6f28569db3dd5c6d"
+checksum = "a1dce859f0832a7d088c4f1119888ab94ef4b5d6795d1ce05afb7fe159d79f98"
 dependencies = [
  "find-msvc-tools",
  "jobserver",
@@ -3743,13 +3744,12 @@ checksum = "28dea519a9695b9977216879a3ebfddf92f1c08c05d984f8996aecd6ecdc811d"
 
 [[package]]
 name = "filetime"
-version = "0.2.27"
+version = "0.2.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f98844151eee8917efc50bd9e8318cb963ae8b297431495d3f758616ea5c57db"
+checksum = "5c287a33c7f0a620c38e641e7f60827713987b3c0f26e8ddc9462cc69cf75759"
 dependencies = [
  "cfg-if",
  "libc",
- "libredox",
 ]
 
 [[package]]
@@ -4213,9 +4213,9 @@ dependencies = [
 
 [[package]]
 name = "h2"
-version = "0.4.13"
+version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f44da3a8150a6703ed5d34e164b875fd14c2cdab9af1252a9a1020bde2bdc54"
+checksum = "171fefbc92fe4a4de27e0698d6a5b392d6a0e333506bc49133760b3bcf948733"
 dependencies = [
  "atomic-waker",
  "bytes",
@@ -4280,9 +4280,9 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.17.0"
+version = "0.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f467dd6dccf739c208452f8014c75c18bb8301b050ad1cfb27153803edb0f51"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
 
 [[package]]
 name = "hashlink"
@@ -4520,9 +4520,9 @@ dependencies = [
 
 [[package]]
 name = "hybrid-array"
-version = "0.4.11"
+version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08d46837a0ed51fe95bd3b05de33cd64a1ee88fc797477ca48446872504507c5"
+checksum = "9155a582abd142abc056962c29e3ce5ff2ad5469f4246b537ed42c5deba857da"
 dependencies = [
  "typenum",
 ]
@@ -4841,7 +4841,7 @@ checksum = "d466e9454f08e4a911e14806c24e16fba1b4c121d1ea474396f396069cf949d9"
 dependencies = [
  "arbitrary",
  "equivalent",
- "hashbrown 0.17.0",
+ "hashbrown 0.17.1",
  "serde",
  "serde_core",
 ]
@@ -4874,8 +4874,37 @@ dependencies = [
  "opentelemetry_sdk 0.30.0",
  "rustls",
  "serde",
- "signet-cold-sql 0.7.2",
- "signet-constants",
+ "signet-constants 0.16.2",
+ "thiserror 2.0.18",
+ "tower",
+ "tracing",
+ "tracing-core",
+ "tracing-opentelemetry 0.31.0",
+ "tracing-subscriber 0.3.23",
+ "url",
+]
+
+[[package]]
+name = "init4-bin-base"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "750f93023d2b79b1e26164e495a13510c04adf39220a76161534b1f2ebfefb47"
+dependencies = [
+ "alloy",
+ "axum",
+ "chrono",
+ "init4-from-env-derive",
+ "metrics",
+ "metrics-exporter-prometheus",
+ "opentelemetry 0.30.0",
+ "opentelemetry-http 0.30.0",
+ "opentelemetry-otlp 0.30.0",
+ "opentelemetry-semantic-conventions 0.30.0",
+ "opentelemetry_sdk 0.30.0",
+ "rustls",
+ "serde",
+ "signet-cold-sql",
+ "signet-constants 0.18.0",
  "thiserror 2.0.18",
  "tower",
  "tracing",
@@ -4981,16 +5010,6 @@ name = "ipnet"
 version = "2.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d98f6fed1fde3f8c21bc40a1abb88dd75e67924f9cffc3ef95607bad8017f8e2"
-
-[[package]]
-name = "iri-string"
-version = "0.7.12"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25e659a4bb38e810ebc252e53b5814ff908a8c58c2a9ce2fae1bbec24cbf4e20"
-dependencies = [
- "memchr",
- "serde",
-]
 
 [[package]]
 name = "is_terminal_polyfill"
@@ -5117,9 +5136,9 @@ dependencies = [
 
 [[package]]
 name = "js-sys"
-version = "0.3.97"
+version = "0.3.98"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1840c94c045fbcf8ba2812c95db44499f7c64910a912551aaaa541decebcacf"
+checksum = "67df7112613f8bfd9150013a0314e196f4800d3201ae742489d999db2f979f08"
 dependencies = [
  "cfg-if",
  "futures-util",
@@ -5351,9 +5370,9 @@ dependencies = [
 
 [[package]]
 name = "keccak-asm"
-version = "0.1.6"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa468878266ad91431012b3e5ef1bf9b170eab22883503a318d46857afa4579a"
+checksum = "1766b89733097006f3a1388a02849865d6bc98c89273cb622e29fdd209922183"
 dependencies = [
  "digest 0.10.7",
  "sha3-asm",
@@ -5386,9 +5405,9 @@ dependencies = [
 
 [[package]]
 name = "kqueue-sys"
-version = "1.1.0"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7b65860415f949f23fa882e669f2dbd4a0f0eeb1acdd56790b30494afd7da2f"
+checksum = "07293a4e297ac234359b510362495713f75ea345d5307140414f20c69ffeb087"
 dependencies = [
  "bitflags",
  "libc",
@@ -5428,9 +5447,9 @@ checksum = "68ab91017fe16c622486840e4c83c9a37afeff978bd239b5293d61ece587de66"
 
 [[package]]
 name = "libgit2-sys"
-version = "0.18.3+1.9.2"
+version = "0.18.4+1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c9b3acc4b91781bb0b3386669d325163746af5f6e4f73e6d2d630e09a35f3487"
+checksum = "9b26f66f35e1871b22efcf7191564123d2a446ca0538cde63c23adfefa9b15b7"
 dependencies = [
  "cc",
  "libc",
@@ -5493,7 +5512,7 @@ dependencies = [
  "bitflags",
  "libc",
  "plain",
- "redox_syscall 0.7.4",
+ "redox_syscall 0.7.5",
 ]
 
 [[package]]
@@ -5643,9 +5662,9 @@ dependencies = [
 
 [[package]]
 name = "lz4_flex"
-version = "0.12.1"
+version = "0.12.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98c23545df7ecf1b16c303910a69b079e8e251d60f7dd2cc9b4177f2afaf1746"
+checksum = "90071f8077f8e40adfc4b7fe9cd495ce316263f19e75c2211eeff3fdf475a3d9"
 
 [[package]]
 name = "mach2"
@@ -5735,9 +5754,9 @@ dependencies = [
 
 [[package]]
 name = "metrics"
-version = "0.24.5"
+version = "0.24.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ff56c2e7dce6bd462e3b8919986a617027481b1dcc703175b58cf9dd98a2f071"
+checksum = "89550ee9f79e88fef3119de263694973a8adb26c21d75322164fb8c493039fe2"
 dependencies = [
  "portable-atomic",
  "rapidhash",
@@ -5795,9 +5814,9 @@ dependencies = [
 
 [[package]]
 name = "metrics-util"
-version = "0.20.3"
+version = "0.20.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e56997f084e57b045edf17c3ed8ba7f9f779c670df8206dfd1c736f4c02dc4a"
+checksum = "96f8722f8562635f92f8ed992f26df0532266eb03d5202607c20c0d7e9745e13"
 dependencies = [
  "crossbeam-epoch",
  "crossbeam-utils",
@@ -6470,7 +6489,7 @@ dependencies = [
  "reqwest 0.12.28",
  "thiserror 2.0.18",
  "tokio",
- "tonic 0.14.5",
+ "tonic 0.14.6",
  "tracing",
 ]
 
@@ -6495,7 +6514,7 @@ dependencies = [
  "opentelemetry 0.31.0",
  "opentelemetry_sdk 0.31.0",
  "prost 0.14.3",
- "tonic 0.14.5",
+ "tonic 0.14.6",
  "tonic-prost",
 ]
 
@@ -6740,18 +6759,18 @@ dependencies = [
 
 [[package]]
 name = "pin-project"
-version = "1.1.11"
+version = "1.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1749c7ed4bcaf4c3d0a3efc28538844fb29bcdd7d2b67b2be7e20ba861ff517"
+checksum = "2466b2336ed02bcdca6b294417127b90ec92038d1d5c4fbeac971a922e0e0924"
 dependencies = [
  "pin-project-internal",
 ]
 
 [[package]]
 name = "pin-project-internal"
-version = "1.1.11"
+version = "1.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9b20ed30f105399776b9c883e68e536ef602a16ae6f596d2c473591d6ad64c6"
+checksum = "c96395f0a926bc13b1c17622aaddda1ecb55d49c8f1bf9777e4d877800a43f8b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7337,9 +7356,9 @@ dependencies = [
 
 [[package]]
 name = "redox_syscall"
-version = "0.7.4"
+version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f450ad9c3b1da563fb6948a8e0fb0fb9269711c9c73d9ea1de5058c79c8d643a"
+checksum = "4666a1a60d8412eab19d94f6d13dcc9cea0a5ef4fdf6a5db306537413c661b1b"
 dependencies = [
  "bitflags",
 ]
@@ -13432,11 +13451,12 @@ dependencies = [
 
 [[package]]
 name = "serde_with"
-version = "3.19.0"
+version = "3.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f05839ce67618e14a09b286535c0d9c94e85ef25469b0e13cb4f844e5593eb19"
+checksum = "e72c1c2cb7b223fafb600a619537a871c2818583d619401b785e7c0b746ccde2"
 dependencies = [
  "base64 0.22.1",
+ "bs58",
  "chrono",
  "hex",
  "indexmap 1.9.3",
@@ -13451,9 +13471,9 @@ dependencies = [
 
 [[package]]
 name = "serde_with_macros"
-version = "3.19.0"
+version = "3.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf2ebbe86054f9b45bc3881e865683ccfaccce97b9b4cb53f3039d67f355a334"
+checksum = "b90c488738ecb4fb0262f41f43bc40efc5868d9fb744319ddf5f5317f417bfac"
 dependencies = [
  "darling 0.23.0",
  "proc-macro2",
@@ -13516,9 +13536,9 @@ dependencies = [
 
 [[package]]
 name = "sha3-asm"
-version = "0.1.6"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59cbb88c189d6352cc8ae96a39d19c7ecad8f7330b29461187f2587fdc2988d5"
+checksum = "9f3f15d4e239ebe08413eed880e0f9b5af4b40ee0472543320efa91d488e96a7"
 dependencies = [
  "cc",
  "cfg-if",
@@ -13591,10 +13611,10 @@ dependencies = [
 
 [[package]]
 name = "signet"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.19.1",
  "openssl",
  "reqwest 0.12.28",
  "reth 1.11.3",
@@ -13611,14 +13631,14 @@ source = "git+https://github.com/init4tech/node-components?tag=v0.16.0#b7e4e4e96
 dependencies = [
  "alloy",
  "foundry-blob-explorers",
- "init4-bin-base",
+ "init4-bin-base 0.19.1",
  "reqwest 0.12.28",
  "reth 1.11.3",
  "reth-chainspec 1.11.3",
  "serde",
- "signet-extract",
- "signet-types",
- "signet-zenith",
+ "signet-extract 0.16.2",
+ "signet-types 0.16.2",
+ "signet-zenith 0.16.2",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -13627,39 +13647,39 @@ dependencies = [
 
 [[package]]
 name = "signet-blobber"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
-dependencies = [
- "alloy",
- "foundry-blob-explorers",
- "futures-util",
- "init4-bin-base",
- "reqwest 0.12.28",
- "schnellru",
- "serde",
- "signet-extract",
- "signet-zenith",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "signet-blobber"
-version = "0.17.2"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "86840f8f067d3dd2f6d80d28a77a797c9c74055cdb3e7d0fbcdc885c5366088a"
+checksum = "ace304a4e3136642c25a80b5355f83c2cde81bb9157d669a6d36d03a7caa7ed3"
 dependencies = [
  "alloy",
  "foundry-blob-explorers",
  "futures-util",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "reqwest 0.12.28",
  "schnellru",
  "serde",
- "signet-extract",
- "signet-zenith",
+ "signet-extract 0.18.0",
+ "signet-zenith 0.18.0",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "signet-blobber"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
+dependencies = [
+ "alloy",
+ "foundry-blob-explorers",
+ "futures-util",
+ "init4-bin-base 0.21.0",
+ "reqwest 0.12.28",
+ "schnellru",
+ "serde",
+ "signet-extract 0.18.0",
+ "signet-zenith 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -13673,61 +13693,62 @@ source = "git+https://github.com/init4tech/node-components?tag=v0.16.0#b7e4e4e96
 dependencies = [
  "alloy",
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.19.1",
  "metrics",
  "reth 1.11.3",
  "reth-chainspec 1.11.3",
  "reth-exex 1.11.3",
  "reth-node-api 1.11.3",
  "signet-blobber 0.16.0",
- "signet-constants",
+ "signet-constants 0.16.2",
  "signet-db",
- "signet-evm",
- "signet-extract",
- "signet-journal",
+ "signet-evm 0.16.2",
+ "signet-extract 0.16.2",
+ "signet-journal 0.16.2",
  "signet-node-types 0.16.0",
- "signet-types",
+ "signet-types 0.16.2",
  "tracing",
  "trevm",
 ]
 
 [[package]]
 name = "signet-block-processor"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
-dependencies = [
- "alloy",
- "eyre",
- "init4-bin-base",
- "metrics",
- "signet-blobber 0.17.0",
- "signet-constants",
- "signet-evm",
- "signet-extract",
- "signet-hot 0.6.9",
- "signet-storage-types 0.6.9",
- "signet-types",
- "tracing",
- "trevm",
-]
-
-[[package]]
-name = "signet-block-processor"
-version = "0.17.2"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e3a79bf2302645dd1f809a46f048d7f6df1b3174893eb02186553fdc0f4d3a6"
+checksum = "2d89584f5563115dee4a4b3b6d4ed1be7e97e16b971969599a3f92b40f7603bc"
 dependencies = [
  "alloy",
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "metrics",
- "signet-blobber 0.17.2",
- "signet-constants",
- "signet-evm",
- "signet-extract",
- "signet-hot 0.7.2",
- "signet-storage-types 0.7.2",
- "signet-types",
+ "signet-blobber 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-constants 0.18.0",
+ "signet-evm 0.18.0",
+ "signet-extract 0.18.0",
+ "signet-hot",
+ "signet-storage-types",
+ "signet-types 0.18.0",
+ "thiserror 2.0.18",
+ "tracing",
+ "trevm",
+]
+
+[[package]]
+name = "signet-block-processor"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
+dependencies = [
+ "alloy",
+ "eyre",
+ "init4-bin-base 0.21.0",
+ "metrics",
+ "signet-blobber 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-constants 0.18.0",
+ "signet-evm 0.18.0",
+ "signet-extract 0.18.0",
+ "signet-hot",
+ "signet-storage-types",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tracing",
  "trevm",
@@ -13741,8 +13762,24 @@ checksum = "dafb04a643cee29180ce8ae2067c81691417bc6ca6ac350146652a3f84576685"
 dependencies = [
  "alloy",
  "serde",
- "signet-evm",
- "signet-types",
+ "signet-evm 0.16.2",
+ "signet-types 0.16.2",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "trevm",
+]
+
+[[package]]
+name = "signet-bundle"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bafc9f47f2ad9e1dccf66f3a6bd8f71bf8ff60c8ea8dd1acfa2c1075af403fa"
+dependencies = [
+ "alloy",
+ "serde",
+ "signet-evm 0.18.0",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -13751,29 +13788,15 @@ dependencies = [
 
 [[package]]
 name = "signet-cold"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cff4c2e82919c683ad713583447704bd4ba50cb8ad3a0e83cff56c59388905cb"
+checksum = "6b2cc6d4488fff5d625b847f1b98cdb491087f1f80ebc35149dfcfe1eb727506"
 dependencies = [
  "alloy",
  "lru",
- "signet-storage-types 0.6.9",
- "thiserror 2.0.18",
- "tokio",
- "tokio-stream",
- "tokio-util",
- "tracing",
-]
-
-[[package]]
-name = "signet-cold"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0c2adeda1e5ef9d88ec5893defe370b3c8a63e80b07afe36fa69749bb31eb0db"
-dependencies = [
- "alloy",
- "lru",
- "signet-storage-types 0.7.2",
+ "metrics",
+ "parking_lot",
+ "signet-storage-types",
  "thiserror 2.0.18",
  "tokio",
  "tokio-stream",
@@ -13783,64 +13806,31 @@ dependencies = [
 
 [[package]]
 name = "signet-cold-mdbx"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9fd2221a44d0efacf2ae5cb721396dbfb8601a4a4da3cd5f618fa7e92993ceb"
+checksum = "52684637d59a4e8c9682810b98326de57e826b51e4054f31d9de5f7340907c52"
 dependencies = [
  "alloy",
- "signet-cold 0.6.9",
- "signet-hot 0.6.9",
- "signet-hot-mdbx 0.6.9",
+ "signet-cold",
+ "signet-hot",
+ "signet-hot-mdbx",
  "signet-libmdbx",
- "signet-storage-types 0.6.9",
- "thiserror 2.0.18",
- "tokio",
-]
-
-[[package]]
-name = "signet-cold-mdbx"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "195e2e3c0c81621f40d20d824314e488de08453e1d0aeb2aaec12e39ae8b1e08"
-dependencies = [
- "alloy",
- "signet-cold 0.7.2",
- "signet-hot 0.7.2",
- "signet-hot-mdbx 0.7.2",
- "signet-libmdbx",
- "signet-storage-types 0.7.2",
+ "signet-storage-types",
  "thiserror 2.0.18",
  "tokio",
 ]
 
 [[package]]
 name = "signet-cold-sql"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2be8ec9d88255d9670f5d614a3df637ee39908f9ec35900fa474d861449c00bf"
+checksum = "07996e2fb11d988bbccf3db9fd3f8416ff0843f06e7aa9375f13559c79f42c9e"
 dependencies = [
  "alloy",
  "alloy-primitives",
- "signet-cold 0.6.9",
- "signet-storage-types 0.6.9",
- "signet-zenith",
- "sqlx",
- "thiserror 2.0.18",
- "tokio",
- "tokio-stream",
-]
-
-[[package]]
-name = "signet-cold-sql"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d3e8d724d26b1c834c662b8668dd759ca8e6845d68bd0b435e810d9293cf8ee2"
-dependencies = [
- "alloy",
- "alloy-primitives",
- "signet-cold 0.7.2",
- "signet-storage-types 0.7.2",
- "signet-zenith",
+ "signet-cold",
+ "signet-storage-types",
+ "signet-zenith 0.18.0",
  "sqlx",
  "thiserror 2.0.18",
  "tokio",
@@ -13852,6 +13842,18 @@ name = "signet-constants"
 version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4360f5a5706c7a9d6ddea3b3d8ab7721f7341c5242bc7f3857967f28090568d"
+dependencies = [
+ "alloy",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "signet-constants"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d0cc668a4c95c16a6400b669224ffda7dd2ede0a35a26621152f40ae4eaa7e5"
 dependencies = [
  "alloy",
  "serde",
@@ -13873,11 +13875,11 @@ dependencies = [
  "reth-prune-types 1.11.3",
  "reth-stages-types 1.11.3",
  "serde",
- "signet-evm",
- "signet-journal",
+ "signet-evm 0.16.2",
+ "signet-journal 0.16.2",
  "signet-node-types 0.16.0",
- "signet-types",
- "signet-zenith",
+ "signet-types 0.16.2",
+ "signet-zenith 0.16.2",
  "tokio",
  "tracing",
  "trevm",
@@ -13891,10 +13893,27 @@ checksum = "05cd7eb4c1a23f8b3742084283c690d04fda828f8c7aaa232b0d0a8d89861267"
 dependencies = [
  "alloy",
  "bitflags",
- "signet-extract",
- "signet-journal",
- "signet-types",
- "signet-zenith",
+ "signet-extract 0.16.2",
+ "signet-journal 0.16.2",
+ "signet-types 0.16.2",
+ "signet-zenith 0.16.2",
+ "thiserror 2.0.18",
+ "tracing",
+ "trevm",
+]
+
+[[package]]
+name = "signet-evm"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "00af2bd72925c5908ee9c46b0eea14469995e14d195bd4ebebb6d72d0020b6cc"
+dependencies = [
+ "alloy",
+ "bitflags",
+ "signet-extract 0.18.0",
+ "signet-journal 0.18.0",
+ "signet-types 0.18.0",
+ "signet-zenith 0.18.0",
  "thiserror 2.0.18",
  "tracing",
  "trevm",
@@ -13902,18 +13921,18 @@ dependencies = [
 
 [[package]]
 name = "signet-exex"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "openssl",
  "reqwest 0.12.28",
  "reth 1.11.0",
  "reth-node-ethereum 1.11.0",
- "signet-blobber 0.17.0",
+ "signet-blobber 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
  "signet-host-reth",
- "signet-node 0.17.0",
- "signet-node-config 0.17.0",
+ "signet-node 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-node-config 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
  "tokio",
  "tokio-util",
  "tracing",
@@ -13926,8 +13945,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6f23779af433acdbac5fb7a5e1489f5a1caab72f5337e2ee640c030a3bdcfb6b"
 dependencies = [
  "alloy",
- "signet-types",
- "signet-zenith",
+ "signet-types 0.16.2",
+ "signet-zenith 0.16.2",
+ "tracing",
+]
+
+[[package]]
+name = "signet-extract"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec1297a8e52d12bab8482b84d3e0dfccf7829935f25d4f197c51f91fbf2d6f7d"
+dependencies = [
+ "alloy",
+ "signet-types 0.18.0",
+ "signet-zenith 0.18.0",
  "tracing",
 ]
 
@@ -13937,60 +13968,59 @@ version = "0.16.0"
 source = "git+https://github.com/init4tech/node-components?tag=v0.16.0#b7e4e4e96c24c3e4ffff8886882691bc8f36f9b4"
 dependencies = [
  "alloy",
- "init4-bin-base",
+ "init4-bin-base 0.19.1",
  "serde",
  "serde_json",
- "signet-constants",
+ "signet-constants 0.16.2",
  "thiserror 2.0.18",
 ]
 
 [[package]]
 name = "signet-genesis"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
-dependencies = [
- "alloy",
- "init4-bin-base",
- "serde",
- "serde_json",
- "signet-constants",
- "signet-evm",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "signet-genesis"
-version = "0.17.2"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b2c5f1ba34c48b31bf9368568fc47d290b95af6b43451580521af7fc31eb0a4"
+checksum = "ad55ffbe0c9553d251802ac98e266b28e93bf5a0052aa5e7a58e79c59241e841"
 dependencies = [
  "alloy",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "serde",
  "serde_json",
- "signet-constants",
- "signet-evm",
+ "signet-constants 0.18.0",
+ "signet-evm 0.18.0",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "signet-genesis"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
+dependencies = [
+ "alloy",
+ "init4-bin-base 0.21.0",
+ "serde",
+ "serde_json",
+ "signet-constants 0.18.0",
+ "signet-evm 0.18.0",
  "thiserror 2.0.18",
 ]
 
 [[package]]
 name = "signet-host-reth"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
 dependencies = [
  "alloy",
- "eyre",
  "futures-util",
+ "metrics",
  "reth 1.11.0",
  "reth-exex 1.11.0",
  "reth-node-api 1.11.0",
- "reth-stages-types 1.11.0",
- "signet-blobber 0.17.0",
- "signet-block-processor 0.17.0",
- "signet-extract",
- "signet-node-types 0.17.0",
- "signet-rpc 0.17.0",
- "signet-types",
+ "signet-blobber 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-block-processor 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-extract 0.18.0",
+ "signet-node-types 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-rpc 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -13998,18 +14028,18 @@ dependencies = [
 
 [[package]]
 name = "signet-host-rpc"
-version = "0.17.2"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c9c1dd68244674aaa0804da70a6d03a0ef524bbc497cba971efd8985e826e299"
+checksum = "8c0f6b4930ddaa02e555b875c6ba53721a718cada452fa258681b737143b4e87"
 dependencies = [
  "alloy",
  "futures-util",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "metrics",
- "signet-block-processor 0.17.2",
- "signet-extract",
- "signet-node-types 0.17.2",
- "signet-types",
+ "signet-block-processor 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-extract 0.18.0",
+ "signet-node-types 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -14017,9 +14047,9 @@ dependencies = [
 
 [[package]]
 name = "signet-hot"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b68954a6c0b0a797761f9d5bc7a3a309d8e42ee3dc3ce3d45bdc70713fc3137"
+checksum = "df7149162c2a0e93dc9ea92e525005ec6262e3ef6b9a90a0be6ef94c354f7075"
 dependencies = [
  "ahash",
  "alloy",
@@ -14027,59 +14057,23 @@ dependencies = [
  "bytes",
  "itertools 0.14.0",
  "rayon",
- "signet-storage-types 0.6.9",
- "signet-zenith",
- "thiserror 2.0.18",
- "trevm",
-]
-
-[[package]]
-name = "signet-hot"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4ce2a8fa0ec2a527ac6b51d267a32d19fdc152b2bc51011cd61445d88246039"
-dependencies = [
- "ahash",
- "alloy",
- "auto_impl",
- "bytes",
- "itertools 0.14.0",
- "rayon",
- "signet-storage-types 0.7.2",
- "signet-zenith",
+ "signet-storage-types",
+ "signet-zenith 0.18.0",
  "thiserror 2.0.18",
  "trevm",
 ]
 
 [[package]]
 name = "signet-hot-mdbx"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf2d025e3f283e52caa0b566f74a2b7d2db470fc415cef66e8127b965de8d0c4"
+checksum = "359f96b30599439360f630c7d19ee2aa96fae6125fa26798afa310815ec0cb7d"
 dependencies = [
  "alloy",
  "bytes",
  "page_size",
  "parking_lot",
- "signet-hot 0.6.9",
- "signet-libmdbx",
- "sysinfo 0.37.2",
- "thiserror 2.0.18",
- "tracing",
- "trevm",
-]
-
-[[package]]
-name = "signet-hot-mdbx"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01d1f3935329e73fd499dcfdb004982f610a901db837efe88799a1123aa4dad9"
-dependencies = [
- "alloy",
- "bytes",
- "page_size",
- "parking_lot",
- "signet-hot 0.7.2",
+ "signet-hot",
  "signet-libmdbx",
  "sysinfo 0.37.2",
  "thiserror 2.0.18",
@@ -14092,6 +14086,18 @@ name = "signet-journal"
 version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4c3c665f734b1cb68ee2a0263032fd171a3737927b4793d11377b8e917f05e7"
+dependencies = [
+ "alloy",
+ "futures-util",
+ "thiserror 2.0.18",
+ "trevm",
+]
+
+[[package]]
+name = "signet-journal"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "790304d2a99fd4e8baef20a452c52e835a790173cd02f18ba5bb2674cb1f01f2"
 dependencies = [
  "alloy",
  "futures-util",
@@ -14146,34 +14152,35 @@ dependencies = [
  "signet-node-config 0.16.0",
  "signet-node-types 0.16.0",
  "signet-rpc 0.16.0",
- "signet-tx-cache",
- "signet-types",
+ "signet-tx-cache 0.16.2",
+ "signet-types 0.16.2",
  "tokio",
  "tracing",
 ]
 
 [[package]]
 name = "signet-node"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8868800738e3927fa9c580499b80172015e173e271ebbdc73a6ecd35216d3729"
 dependencies = [
  "alloy",
  "eyre",
  "metrics",
  "reqwest 0.12.28",
- "signet-blobber 0.17.0",
- "signet-block-processor 0.17.0",
- "signet-cold 0.6.9",
- "signet-evm",
- "signet-extract",
- "signet-genesis 0.17.0",
- "signet-hot 0.6.9",
- "signet-node-config 0.17.0",
- "signet-node-types 0.17.0",
- "signet-rpc 0.17.0",
- "signet-storage 0.6.9",
- "signet-tx-cache",
- "signet-types",
+ "signet-blobber 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-block-processor 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-cold",
+ "signet-evm 0.18.0",
+ "signet-extract 0.18.0",
+ "signet-genesis 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-hot",
+ "signet-node-config 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-node-types 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-rpc 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-storage",
+ "signet-tx-cache 0.18.0",
+ "signet-types 0.18.0",
  "tokio",
  "tracing",
  "trevm",
@@ -14181,27 +14188,26 @@ dependencies = [
 
 [[package]]
 name = "signet-node"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45dee593241a1db2330a5c6fb9f061849be98a48b625f2fc2009390f92c02808"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
 dependencies = [
  "alloy",
  "eyre",
  "metrics",
  "reqwest 0.12.28",
- "signet-blobber 0.17.2",
- "signet-block-processor 0.17.2",
- "signet-cold 0.7.2",
- "signet-evm",
- "signet-extract",
- "signet-genesis 0.17.2",
- "signet-hot 0.7.2",
- "signet-node-config 0.17.2",
- "signet-node-types 0.17.2",
- "signet-rpc 0.17.2",
- "signet-storage 0.7.2",
- "signet-tx-cache",
- "signet-types",
+ "signet-blobber 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-block-processor 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-cold",
+ "signet-evm 0.18.0",
+ "signet-extract 0.18.0",
+ "signet-genesis 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-hot",
+ "signet-node-config 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-node-types 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-rpc 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-storage",
+ "signet-tx-cache 0.18.0",
+ "signet-types 0.18.0",
  "tokio",
  "tracing",
  "trevm",
@@ -14214,7 +14220,7 @@ source = "git+https://github.com/init4tech/node-components?tag=v0.16.0#b7e4e4e96
 dependencies = [
  "alloy",
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.19.1",
  "reqwest 0.12.28",
  "reth 1.11.3",
  "reth-chainspec 1.11.3",
@@ -14224,44 +14230,50 @@ dependencies = [
  "signet-blobber 0.16.0",
  "signet-block-processor 0.16.0",
  "signet-genesis 0.16.0",
- "signet-types",
+ "signet-types 0.16.2",
  "tracing",
  "trevm",
 ]
 
 [[package]]
 name = "signet-node-config"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3dc7af85480469760a92f60b142411397c2886c2caecf455adfbd64923c76089"
 dependencies = [
  "alloy",
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "reqwest 0.12.28",
  "serde",
- "signet-blobber 0.17.0",
- "signet-genesis 0.17.0",
- "signet-storage 0.6.9",
- "signet-types",
+ "signet-blobber 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-cold",
+ "signet-genesis 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-hot",
+ "signet-rpc 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-storage",
+ "signet-types 0.18.0",
  "tokio-util",
  "tracing",
 ]
 
 [[package]]
 name = "signet-node-config"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9418063ce94731d66d97f2c748647077288cc707633e41bd8269fecbcdbdf8a1"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
 dependencies = [
  "alloy",
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "reqwest 0.12.28",
  "serde",
- "signet-blobber 0.17.2",
- "signet-genesis 0.17.2",
- "signet-storage 0.7.2",
- "signet-types",
+ "signet-blobber 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-cold",
+ "signet-genesis 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-hot",
+ "signet-rpc 0.18.0 (git+https://github.com/init4tech/node-components?tag=v0.18.0)",
+ "signet-storage",
+ "signet-types 0.18.0",
  "tokio-util",
  "tracing",
 ]
@@ -14277,26 +14289,26 @@ dependencies = [
  "reth-db 1.11.3",
  "reth-node-api 1.11.3",
  "reth-node-ethereum 1.11.3",
- "signet-zenith",
+ "signet-zenith 0.16.2",
  "tokio",
  "tracing",
 ]
 
 [[package]]
 name = "signet-node-types"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46359322bd5a5b52adb3b0392ae045c7a139fb60cbf2f85c3d7bf3c49504fc6e"
 dependencies = [
- "signet-extract",
+ "signet-extract 0.18.0",
 ]
 
 [[package]]
 name = "signet-node-types"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a26fe8c86511216b3463bda56b60bf1506dcc717b56bdf2772d79186ea854f9"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
 dependencies = [
- "signet-extract",
+ "signet-extract 0.18.0",
 ]
 
 [[package]]
@@ -14323,12 +14335,12 @@ dependencies = [
  "serde",
  "serde_json",
  "signet-block-processor 0.16.0",
- "signet-bundle",
+ "signet-bundle 0.16.2",
  "signet-db",
- "signet-evm",
+ "signet-evm 0.16.2",
  "signet-node-types 0.16.0",
- "signet-tx-cache",
- "signet-types",
+ "signet-tx-cache 0.16.2",
+ "signet-types 0.16.2",
  "thiserror 2.0.18",
  "tokio",
  "tokio-util",
@@ -14339,26 +14351,27 @@ dependencies = [
 
 [[package]]
 name = "signet-rpc"
-version = "0.17.0"
-source = "git+https://github.com/init4tech/node-components?tag=v0.17.0#411a515ec746740a85357db516a07560a9e179fa"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf15da23cf6f46e67975198f3e808baadbba5b3b4347371fa4d5302564d3240f"
 dependencies = [
  "ajj",
  "alloy",
  "axum",
  "dashmap",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "interprocess",
  "itertools 0.14.0",
  "revm-inspectors",
  "serde",
- "signet-bundle",
- "signet-cold 0.6.9",
- "signet-evm",
- "signet-hot 0.6.9",
- "signet-storage 0.6.9",
- "signet-storage-types 0.6.9",
- "signet-tx-cache",
- "signet-types",
+ "signet-bundle 0.18.0",
+ "signet-cold",
+ "signet-evm 0.18.0",
+ "signet-hot",
+ "signet-storage",
+ "signet-storage-types",
+ "signet-tx-cache 0.18.0",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tokio-stream",
@@ -14370,27 +14383,26 @@ dependencies = [
 
 [[package]]
 name = "signet-rpc"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eaf29afd3f32013c55aba16381203dbee754304d72e6cd8aae02045e144333fa"
+version = "0.18.0"
+source = "git+https://github.com/init4tech/node-components?tag=v0.18.0#e0727ec831305dd263a2d348be97176ca05df28b"
 dependencies = [
  "ajj",
  "alloy",
  "axum",
  "dashmap",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "interprocess",
  "itertools 0.14.0",
  "revm-inspectors",
  "serde",
- "signet-bundle",
- "signet-cold 0.7.2",
- "signet-evm",
- "signet-hot 0.7.2",
- "signet-storage 0.7.2",
- "signet-storage-types 0.7.2",
- "signet-tx-cache",
- "signet-types",
+ "signet-bundle 0.18.0",
+ "signet-cold",
+ "signet-evm 0.18.0",
+ "signet-hot",
+ "signet-storage",
+ "signet-storage-types",
+ "signet-tx-cache 0.18.0",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tokio",
  "tokio-stream",
@@ -14402,85 +14414,51 @@ dependencies = [
 
 [[package]]
 name = "signet-sidecar"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "eyre",
- "init4-bin-base",
+ "init4-bin-base 0.21.0",
  "openssl",
  "reqwest 0.12.28",
- "signet-blobber 0.17.2",
+ "signet-blobber 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "signet-host-rpc",
- "signet-node 0.17.2",
- "signet-node-config 0.17.2",
- "signet-rpc 0.17.2",
+ "signet-node 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-node-config 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "signet-rpc 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio",
  "tokio-util",
 ]
 
 [[package]]
 name = "signet-storage"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "34d96f96ce8757f5801e86896cd85226ac2514c9846354f6dbdd77a78ecd57d6"
+checksum = "31aa849c21d28517de4a250ab19d56d90e1de2b9ddb924a8a5b08158f0193f23"
 dependencies = [
  "alloy",
- "signet-cold 0.6.9",
- "signet-cold-mdbx 0.6.9",
- "signet-cold-sql 0.6.9",
- "signet-hot 0.6.9",
- "signet-hot-mdbx 0.6.9",
- "signet-storage-types 0.6.9",
- "thiserror 2.0.18",
- "tokio-util",
-]
-
-[[package]]
-name = "signet-storage"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "342e06b231a26f99fb9d4da906b0a459c72a69c85af3a2d1693038e0b3e23d08"
-dependencies = [
- "alloy",
- "signet-cold 0.7.2",
- "signet-cold-mdbx 0.7.2",
- "signet-cold-sql 0.7.2",
- "signet-hot 0.7.2",
- "signet-hot-mdbx 0.7.2",
- "signet-storage-types 0.7.2",
+ "signet-cold",
+ "signet-cold-mdbx",
+ "signet-cold-sql",
+ "signet-hot",
+ "signet-hot-mdbx",
+ "signet-storage-types",
  "thiserror 2.0.18",
  "tokio-util",
 ]
 
 [[package]]
 name = "signet-storage-types"
-version = "0.6.9"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2f15f0415835cdf27f030f6f5c2fa96ce60fd9c4a60618d90fb686284ab5e0e"
+checksum = "fbe9479c83a838865e25ea5e20b9b3533eca0f6c353c5c86a5058cc46577d0e4"
 dependencies = [
  "alloy",
  "bytes",
  "roaring",
  "serde",
- "signet-evm",
- "signet-types",
- "signet-zenith",
- "thiserror 2.0.18",
- "trevm",
-]
-
-[[package]]
-name = "signet-storage-types"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a53daec2dc0e2750b0702f9b8ecfa1b78a73afd77453da06cbded4071096f3fb"
-dependencies = [
- "alloy",
- "bytes",
- "roaring",
- "serde",
- "signet-evm",
- "signet-types",
- "signet-zenith",
+ "signet-evm 0.18.0",
+ "signet-types 0.18.0",
+ "signet-zenith 0.18.0",
  "thiserror 2.0.18",
  "trevm",
 ]
@@ -14495,9 +14473,28 @@ dependencies = [
  "futures-util",
  "reqwest 0.12.28",
  "serde",
- "signet-bundle",
- "signet-constants",
- "signet-types",
+ "signet-bundle 0.16.2",
+ "signet-constants 0.16.2",
+ "signet-types 0.16.2",
+ "thiserror 2.0.18",
+ "tracing",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "signet-tx-cache"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23cede3766494e2958687c3daba14d02fb84f35ff72e60aa22c1c9187e5e161d"
+dependencies = [
+ "alloy",
+ "futures-util",
+ "reqwest 0.12.28",
+ "serde",
+ "signet-bundle 0.18.0",
+ "signet-constants 0.18.0",
+ "signet-types 0.18.0",
  "thiserror 2.0.18",
  "tracing",
  "url",
@@ -14513,8 +14510,22 @@ dependencies = [
  "alloy",
  "chrono",
  "serde",
- "signet-constants",
- "signet-zenith",
+ "signet-constants 0.16.2",
+ "signet-zenith 0.16.2",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "signet-types"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "99ab5ab70ee9fae53178c8ecf52e768226c93842b2c9826c773b0aeceaa618d3"
+dependencies = [
+ "alloy",
+ "chrono",
+ "serde",
+ "signet-constants 0.18.0",
+ "signet-zenith 0.18.0",
  "thiserror 2.0.18",
 ]
 
@@ -14523,6 +14534,18 @@ name = "signet-zenith"
 version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4cafc152356fad0f4461af607af6e4151a3a577b55007a60ce5587969127a6e5"
+dependencies = [
+ "alloy",
+ "alloy-core",
+ "serde",
+ "trevm",
+]
+
+[[package]]
+name = "signet-zenith"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8dbe24b7cabf762735fad690d913886ebf3ddcf679f3d680be08e582825ca6bc"
 dependencies = [
  "alloy",
  "alloy-core",
@@ -15203,9 +15226,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "tokio"
-version = "1.52.2"
+version = "1.52.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "110a78583f19d5cdb2c5ccf321d1290344e71313c6c37d43520d386027d18386"
+checksum = "8fc7f01b389ac15039e4dc9531aa973a135d7a4135281b12d7c1bc79fd57fffe"
 dependencies = [
  "bytes",
  "libc",
@@ -15404,9 +15427,9 @@ dependencies = [
 
 [[package]]
 name = "tonic"
-version = "0.14.5"
+version = "0.14.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fec7c61a0695dc1887c1b53952990f3ad2e3a31453e1f49f10e75424943a93ec"
+checksum = "ac2a5518c70fa84342385732db33fb3f44bc4cc748936eb5833d2df34d6445ef"
 dependencies = [
  "async-trait",
  "base64 0.22.1",
@@ -15430,13 +15453,13 @@ dependencies = [
 
 [[package]]
 name = "tonic-prost"
-version = "0.14.5"
+version = "0.14.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a55376a0bbaa4975a3f10d009ad763d8f4108f067c7c2e74f3001fb49778d309"
+checksum = "50849f68853be452acf590cde0b146665b8d507b3b8af17261df47e02c209ea0"
 dependencies = [
  "bytes",
  "prost 0.14.3",
- "tonic 0.14.5",
+ "tonic 0.14.6",
 ]
 
 [[package]]
@@ -15461,9 +15484,9 @@ dependencies = [
 
 [[package]]
 name = "tower-http"
-version = "0.6.8"
+version = "0.6.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4e6559d53cc268e5031cd8429d05415bc4cb4aefc4aa5d6cc35fbf5b924a1f8"
+checksum = "68d6fdd9f81c2819c9a8b0e0cd91660e7746a8e6ea2ba7c6b2b057985f6bcb51"
 dependencies = [
  "async-compression",
  "base64 0.22.1",
@@ -15476,7 +15499,6 @@ dependencies = [
  "http-body-util",
  "http-range-header",
  "httpdate",
- "iri-string",
  "mime",
  "mime_guess",
  "percent-encoding",
@@ -15487,6 +15509,7 @@ dependencies = [
  "tower-layer",
  "tower-service",
  "tracing",
+ "url",
  "uuid",
 ]
 
@@ -16093,9 +16116,9 @@ checksum = "b8dad83b4f25e74f184f64c43b150b91efe7647395b42289f38e50566d82855b"
 
 [[package]]
 name = "wasm-bindgen"
-version = "0.2.120"
+version = "0.2.121"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df52b6d9b87e0c74c9edfa1eb2d9bf85e5d63515474513aa50fa181b3c4f5db1"
+checksum = "49ace1d07c165b0864824eee619580c4689389afa9dc9ed3a4c75040d82e6790"
 dependencies = [
  "cfg-if",
  "once_cell",
@@ -16106,9 +16129,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-futures"
-version = "0.4.70"
+version = "0.4.71"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af934872acec734c2d80e6617bbb5ff4f12b052dd8e6332b0817bce889516084"
+checksum = "96492d0d3ffba25305a7dc88720d250b1401d7edca02cc3bcd50633b424673b8"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -16116,9 +16139,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro"
-version = "0.2.120"
+version = "0.2.121"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78b1041f495fb322e64aca85f5756b2172e35cd459376e67f2a6c9dffcedb103"
+checksum = "8e68e6f4afd367a562002c05637acb8578ff2dea1943df76afb9e83d177c8578"
 dependencies = [
  "quote",
  "wasm-bindgen-macro-support",
@@ -16126,9 +16149,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro-support"
-version = "0.2.120"
+version = "0.2.121"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9dcd0ff20416988a18ac686d4d4d0f6aae9ebf08a389ff5d29012b05af2a1b41"
+checksum = "d95a9ec35c64b2a7cb35d3fead40c4238d0940c86d107136999567a4703259f2"
 dependencies = [
  "bumpalo",
  "proc-macro2",
@@ -16139,9 +16162,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-shared"
-version = "0.2.120"
+version = "0.2.121"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49757b3c82ebf16c57d69365a142940b384176c24df52a087fb748e2085359ea"
+checksum = "c4e0100b01e9f0d03189a92b96772a1fb998639d981193d7dbab487302513441"
 dependencies = [
  "unicode-ident",
 ]
@@ -16209,9 +16232,9 @@ dependencies = [
 
 [[package]]
 name = "web-sys"
-version = "0.3.97"
+version = "0.3.98"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2eadbac71025cd7b0834f20d1fe8472e8495821b4e9801eb0a60bd1f19827602"
+checksum = "4b572dff8bcf38bad0fa19729c89bb5748b2b9b1d8be70cf90df697e3a8f32aa"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -17042,9 +17065,9 @@ dependencies = [
 
 [[package]]
 name = "zerofrom"
-version = "0.1.7"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69faa1f2a1ea75661980b013019ed6687ed0e83d069bc1114e2cc74c6c04c4df"
+checksum = "0ec05a11813ea801ff6d75110ad09cd0824ddba17dfe17128ea0d5f68e6c5272"
 dependencies = [
  "zerofrom-derive",
 ]

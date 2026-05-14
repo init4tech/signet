@@ -1,6 +1,6 @@
 [package]
 name = "signet-sidecar"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 rust-version = "1.92"
 authors = ["init4"]
@@ -9,14 +9,14 @@ homepage = "https://github.com/init4tech/signet"
 repository = "https://github.com/init4tech/signet"
 
 [dependencies]
-init4-bin-base = { version = "0.19", features = ["alloy"], default-features = false }
+init4-bin-base = { version = "0.21", features = ["alloy"], default-features = false }
 
 # Node Components
-signet-blobber = "0.17"
-signet-host-rpc = "0.17"
-signet-node = "0.17"
-signet-node-config = { version = "0.17", features = ["postgres"] }
-signet-rpc = "0.17"
+signet-blobber = "0.18.0"
+signet-host-rpc = "0.18.0"
+signet-node = "0.18.0"
+signet-node-config = { version = "0.18.0", features = ["postgres"] }
+signet-rpc = "0.18.0"
 
 eyre = "0.6.12"
 openssl = { version = "0.10", features = ["vendored"] }
