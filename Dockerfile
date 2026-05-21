@@ -37,4 +37,5 @@ FROM --platform=$TARGETPLATFORM debian:bookworm-slim
 
 COPY --from=builder /app/target/release/signet /usr/local/bin/signet
 COPY ./.github/genesis/parmigiana-host.genesis.json /network_configs/parmigiana-host.genesis.json
+COPY ./.github/genesis/gouda.genesis.json /network_configs/gouda.genesis.json
 CMD ["/usr/local/bin/signet", "node"]
