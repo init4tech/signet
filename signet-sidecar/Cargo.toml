@@ -13,7 +13,7 @@ init4-bin-base = { version = "0.21", features = ["alloy"], default-features = fa
 
 # Node Components
 signet-blobber = "0.18.0"
-signet-host-rpc = "0.18.0"
+signet-host-rpc = "0.19.1"
 signet-node = "0.18.0"
 signet-node-config = { version = "0.18.0", features = ["postgres"] }
 signet-rpc = "0.18.0"
