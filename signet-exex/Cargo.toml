@@ -12,10 +12,10 @@ repository = "https://github.com/init4tech/signet"
 init4-bin-base = { version = "0.23", features = ["alloy"], default-features = false }
 
 # Node Components
-signet-blobber = { git = "https://github.com/init4tech/node-components", tag = "v0.19.0" }
-signet-host-reth = { git = "https://github.com/init4tech/node-components", tag = "v0.19.0" }
-signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.19.0" }
-signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.19.0", features = ["postgres"] }
+signet-blobber = { git = "https://github.com/init4tech/node-components", tag = "v0.19.1" }
+signet-host-reth = { git = "https://github.com/init4tech/node-components", tag = "v0.19.1" }
+signet-node = { git = "https://github.com/init4tech/node-components", tag = "v0.19.1" }
+signet-node-config = { git = "https://github.com/init4tech/node-components", tag = "v0.19.1", features = ["postgres"] }
 
 reth = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v1.11.0" }
