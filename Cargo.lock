@@ -13611,7 +13611,7 @@ dependencies = [
 
 [[package]]
 name = "signet"
-version = "1.2.0"
+version = "1.1.1"
 dependencies = [
  "eyre",
  "init4-bin-base 0.19.1",
@@ -13921,7 +13921,7 @@ dependencies = [
 
 [[package]]
 name = "signet-exex"
-version = "1.2.0"
+version = "1.1.1"
 dependencies = [
  "eyre",
  "init4-bin-base 0.23.1",
@@ -14414,7 +14414,7 @@ dependencies = [
 
 [[package]]
 name = "signet-sidecar"
-version = "1.2.0"
+version = "1.1.1"
 dependencies = [
  "eyre",
  "init4-bin-base 0.23.1",
